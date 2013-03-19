@@ -3,6 +3,13 @@
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
 
+#include <TaskDialog>
+
+AppName := "EDE"
+AppVersion := "0.1.0"
+
+AppString := AppName " V" AppVersion
+
 
 ; GUI is build from 4 separate GUIs - each represented by a 4x5 array of icons (representing  the NUMPAD)
 ; Row 0 represents the tab-row. Clicking on icon in row 0 will switch to another pseudo-tab (another GUI)
@@ -81,6 +88,7 @@ Loop 4 {
 }
 
 ; Contents of Tab1
+tabTmp := 1
 Gui, 1:Add, Picture, %pos_NP_7% 0x800000 gPad, res\arrow-135.ico
 Gui, 1:Add, Picture, %pos_NP_4% 0x800000 gPad, res\arrow-180.ico
 Gui, 1:Add, Picture, %pos_NP_1% 0x800000 gPad, res\arrow-225.ico
@@ -90,9 +98,14 @@ Gui, 1:Add, Picture, %pos_NP_2% 0x800000 gPad, res\arrow-270.ico
 Gui, 1:Add, Picture, %pos_NP_9% 0x800000 gPad, res\arrow-045.ico
 Gui, 1:Add, Picture, %pos_NP_6% 0x800000 gPad, res\arrow-000.ico
 Gui, 1:Add, Picture, %pos_NP_3% 0x800000 gPad, res\arrow-315.ico
-Gui, 1:Add, Picture, %pos_NP_PLU% 0x800000 gRestore, 
-Gui, 1:Add, Picture, %pos_NP_PLU3% gRestore, res\arrow-circle.ico
+Gui, 1:Add, Picture, %pos_NP_PLU% 0x800000 gNYI vRestore1, 
+Gui, 1:Add, Picture, %pos_NP_PLU3% gNYI, res\arrow-circle.ico
 
+; Contents of tab 4
+tabTmp := 4
+Gui, %tabTmp%:Add, Picture, %pos_NP_MIN% 0x800000 gNYI, res\information-white.ico
+
+Menu, Tray, Icon, res\EDE.ico
 return 
 
 
@@ -106,7 +119,7 @@ $ESC::
 		Gui, %TabId%:hide
 	}
 	else {
-		SendInput $ESC
+		SendInput {Escape}
 	}
 	return 
 
@@ -118,7 +131,6 @@ $ESC::
 ; ----------------------------------------------------------------------------
 ; --- Labels -----------------------------------------------------------------
 ToogleTab:
-	; MsgBox % "A_Gui:" A_Gui "`nA_GuiControl:" A_GuiControl "`nA_GuiEvent:" A_GuiEvent "`nA_EventInfo" A_EventInfo
 	ShowGui(A_GuiControl)
 	return
 	
@@ -130,7 +142,8 @@ Pad:
 	return
 	
 
-Restore:
+NYI:
+    NotYetImplemented()
     return
    
 ShowGui(tab := "Tab1", updatePos = 0) {
@@ -153,7 +166,12 @@ ShowGui(tab := "Tab1", updatePos = 0) {
 	return
 }
 
+NotYetImplemented() {
+    Global AppString
+    TaskDialog(0, AppString "|Not yet implemented|A_Gui: <" A_Gui ">`nA_GuiControl: <" A_GuiControl ">`nA_GuiEvent: <" A_GuiEvent ">`nA_EventInfo: <" A_EventInfo ">", "", 1, "WARNING")
+}
+
 Pad() {
-	MsgBox % "A_Gui:" A_Gui "`nA_GuiControl:" A_GuiControl "`nA_GuiEvent:" A_GuiEvent "`nA_EventInfo" A_EventInfo "`nXX" XX
-	return
+    NotYetImplemented()
+    return
 }
