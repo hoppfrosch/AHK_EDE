@@ -7,7 +7,7 @@
 #include <WindowHandler>
 
 AppName := "EDE"
-AppVersion := "0.2.0"
+AppVersion := "0.2.1"
 
 AppString := AppName " V" AppVersion
 
@@ -367,31 +367,31 @@ Tab1(GuiControl, WL) {
 		TaskDialog(WL[0]._hwnd, AppString " - WindowsInfo|hWnd: <" WL[0]._hwnd ">|Title: <" WL[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(GuiControl == "1") {
-		WL[0].tile(0, 50, 50, 50)
+		WL[0].movePercental(0, 50, 50, 50)
 	}
 	else if(GuiControl == "2") {
-		WL[0].tile(0, 50, 100, 50)
+		WL[0].movePercental(0, 50, 100, 50)
 	}
 	else if(GuiControl == "3") {
-		WL[0].tile(50, 50, 50, 50)
+		WL[0].movePercental(50, 50, 50, 50)
 	}
 	else if(GuiControl == "4") {
-		WL[0].tile(0, 0, 50, 100)
+		WL[0].movePercental(0, 0, 50, 100)
 	}
 	else if(GuiControl == "5") {
-		WL[0].tile(25, 25, 50, 50)
+		WL[0].movePercental(25, 25, 50, 50)
 	}
 	else if(GuiControl == "6") {
-		WL[0].tile(50, 0, 50, 100)
+		WL[0].movePercental(50, 0, 50, 100)
 	}
 	else if(GuiControl == "7") {
-		WL[0].tile(0, 0, 50, 50)
+		WL[0].movePercental(0, 0, 50, 50)
 	}
 	else if(GuiControl == "8") {
-		WL[0].tile(0, 0, 100, 50)
+		WL[0].movePercental(0, 0, 100, 50)
 	}
 	else if(GuiControl == "9") {
-		WL[0].tile(50, 0, 50, 50)
+		WL[0].movePercental(50, 0, 50, 50)
 	}
 	else {
 		NotYetImplemented()
