@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EDE_Configuration>
+	<Align>
+		<!-- 
+		Each <Dir>-node represents one direction on the compass and corresponds a key on NUMPAD (e.g. Numpad-8 is identical with north)
+		Each Childnode <Pos> describes window size/position which should be set, when pressing the corresponding Numpad-key.
+		Multiple <Pos> children are stepped through in the given order
+		The value-attributes of each <Pos> are given in percents of the size of the monitor
+		-->
+		<Dir kp="1" compass="southwest">
+			<Pos x="0.00" y="50.00" width="50.00" height="50.00"/>
+			<Pos x="0.00" y="50.00" width="33.33" height="50.00"/>
+			<Pos x="0.00" y="50.00" width="66.67" height="50.00"/>
+		</Dir>
+		<Dir kp="2" compass="south">
+			<Pos x="0.00" y="50.00" width="100.00" height="50.00"/>
+			<Pos x="20.00" y="50.00" width="60.00" height="50.00"/>
+			<Pos x="33.33" y="50.00" width="33.33" height="50.00"/>
+		</Dir>
+		<Dir kp="3" compass="southeast">
+			<Pos x="50.00" y="50.00" width="50.00" height="50.00"/>
+			<Pos x="66.67" y="50.00" width="33.33" height="50.00"/>
+			<Pos x="33.33" y="50.00" width="66.67" height="50.00"/>
+		</Dir >
+		<Dir kp="4" compass="west">
+			<Pos x="0.00" y="0.00" width="50.00" height="100.00"/>
+			<Pos x="0.00" y="0.00" width="33.33" height="100.00"/>
+			<Pos x="0.00" y="0.00" width="66.67" height="100.00"/>
+		</Dir>
+		<Dir kp="5" compass="center">
+			<Pos x="0.00" y="0.00" width="100.00" height="100.00"/>
+			<Pos x="33.33" y="0.00" width="33.33" height="100.00"/>
+			<Pos x="16.67" y="0.00" width="66.67" height="100.00"/>
+		</Dir>
+		<Dir kp="6" compass="east"> 
+			<Pos x="50.00" y="0.00" width="50.00" height="100.00"/>
+			<Pos x="66.67" y="0.00" width="33.33" height="100.00"/>
+			<Pos x="33.33" y="0.00" width="66.67" height="100.00"/>
+		</Dir>
+		<Dir kp="7" compass="northwest">
+			<Pos x="0.00" y="0.00" width="50.00" height="50.00"/>
+			<Pos x="0.00" y="0.00" width="33.33" height="50.00"/>
+			<Pos x="0.00" y="0.00" width="66.67" height="50.00"/>
+		</Dir>
+		<Dir kp="8" compass="north">
+			<Pos x="0.00" y="0.00" width="100.00" height="50.00"/>
+			<Pos x="33.33" y="0.00" width="33.33" height="50.00"/>
+			<Pos x="20.00" y="0.00" width="60.00" height="50.00"/>
+		</Dir>
+		<Dir kp="9" compass="northeast">
+			<Pos x="50.00" y="0.00" width="50.00" height="50.00"/>
+			<Pos x="66.67" y="0.00" width="33.33" height="50.00"/>
+			<Pos x="33.33" y="0.00" width="66.67" height="50.00"/>
+		</Dir>
+	</Align>
+</EDE_Configuration>
