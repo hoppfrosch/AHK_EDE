@@ -24,6 +24,7 @@ class EDE_XMLConfig {
 	_version := "0.1.0"
 	_debug := 0 ; _DBG_	
 	filename := ""
+	contents := object()
 	
 	parse() {
 		; create an XMLDOMDocument object and load the XML string
@@ -56,7 +57,7 @@ class EDE_XMLConfig {
 					oPos.y := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "y")
 					oPos.width := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "width")
 					oPos.height := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "height")
-					this.align[iDir, iPos] := oPos
+					this.contents.align[iDir, iPos] := oPos
 				}
 			}
 		}

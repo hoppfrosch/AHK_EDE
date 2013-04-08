@@ -5,9 +5,10 @@
 
 #include <TaskDialog>
 #include <WindowHandler>
+#Include <EDE_XMLConfig>
 
 AppName := "EDE"
-AppVersion := "0.2.1"
+AppVersion := "0.3.0"
 
 AppString := AppName " V" AppVersion
 
@@ -17,7 +18,9 @@ activeTab := "Tab1"  ; Global variable used to store, which GUI-Tab is currently
 activeWinHWND := 
 WinList := object()
 EDEActive := 0
+config := object()
 
+LoadConfig()
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Building up the GUI
 
@@ -113,6 +116,8 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%          gNYI,               res\arrow
 ; Contents of tab 4
 tabTmp := 4
 Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% vSub, res\information-white.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   res\puzzle--pencil.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   res\puzzle--exclamation.ico
 
 Menu, Tray, Icon, res\EDE.ico
 return 
@@ -130,10 +135,10 @@ $ESC::
 		Send, {Esc}
 	}
 	return 
-
+	
 
 #F1::
-	OutputDebug % ">HK [Win-F1] pressed"
+	OutputDebug % ">[EDE] [Win-F1] pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
 	if (WinList[hwnd] == "" ) {
@@ -142,10 +147,47 @@ $ESC::
 	; WinList[0] contains always windowsHandler of currently active window
 	WinList[0] := WinList[hwnd]
 	ShowGui(activeTab, 1)
-	OutputDebug % "<HK [Win-F1] done"
+	OutputDebug % "<[EDE] [Win-F1] done"
 	return
 
-NumpadMult::
+
+$1::
+	if (EDEActive == 1) {
+		ShowGui("Tab1",1)
+	}
+	else {
+		Send, 1
+	}
+	return
+	
+$2::
+	if (EDEActive == 1) {
+		ShowGui("Tab2",1)
+	}
+	else {
+		Send, 2
+	}
+	return
+
+$3::
+	if (EDEActive == 1) {
+		ShowGui("Tab3",1)
+	}
+	else {
+		Send, 3
+	}
+	return
+
+$4::
+	if (EDEActive == 1) {
+		ShowGui("Tab4",1)
+	}
+	else {
+		Send, 4
+	}
+	return
+
+$NumpadMult::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("Mult", WinList)
@@ -155,7 +197,7 @@ NumpadMult::
 	}
 	return
 
-NumpadSub::
+$NumpadSub::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("Sub", WinList)
@@ -165,7 +207,7 @@ NumpadSub::
 	}
 	return
 
-NumpadAdd::
+$NumpadAdd::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("Add", WinList)
@@ -176,7 +218,7 @@ NumpadAdd::
 	return
 
 
-NumpadEnter::
+$NumpadEnter::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("Enter", WinList)
@@ -186,7 +228,7 @@ NumpadEnter::
 	}
 	return
 
-NumpadDot::
+$NumpadDot::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("Dot", WinList)
@@ -196,7 +238,7 @@ NumpadDot::
 	}
 	return
 	
-Numpad0::
+$Numpad0::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("0", WinList)
@@ -206,7 +248,7 @@ Numpad0::
 	}
 	return
 	
-Numpad1::
+$Numpad1::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("1", WinList)
@@ -216,7 +258,7 @@ Numpad1::
 	}
 	return
 
-Numpad2::
+$Numpad2::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("2", WinList)
@@ -226,7 +268,7 @@ Numpad2::
 	}
 	return
 
-Numpad3::
+$Numpad3::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("3", WinList)
@@ -236,7 +278,7 @@ Numpad3::
 	}
 	return
 
-Numpad4::
+$Numpad4::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("4", WinList)
@@ -246,7 +288,7 @@ Numpad4::
 	}
 	return
 
-Numpad5::
+$Numpad5::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("5", WinList)
@@ -256,7 +298,7 @@ Numpad5::
 	}
 	return
 
-Numpad6::
+$Numpad6::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("6", WinList)
@@ -266,7 +308,7 @@ Numpad6::
 	}
 	return
 
-Numpad7::
+$Numpad7::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("7", WinList)
@@ -276,7 +318,7 @@ Numpad7::
 	}
 	return
 
-Numpad8::
+$Numpad8::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("8", WinList)
@@ -286,7 +328,7 @@ Numpad8::
 	}
 	return
 
-Numpad9::
+$Numpad9::
 	if (EDEActive == 1) {
 		id := activeTabId()
 		Tab%id%("9", WinList)
@@ -343,7 +385,7 @@ ShowGui(tab := "Tab1", updatePos = 0) {
 	else {
 		; GUI stays on current position - used when changing the tab
 		WinGetPos, x, y, w, h,
-		Gui, %TabId%:Show, x%x% y%y% h%h% w%w% ,EDE
+		Gui, %TabId%:Show
 	}
 	return
 }
@@ -362,6 +404,8 @@ NotYetImplemented() {
 
 Tab1(GuiControl, WL) {
 	Global AppString
+	
+	OutputDebug % "[EDE-Keypress] Tab <1> - Key <" GuiControl ">"
 	
 	if (GuiControl == "Sub") {
 		TaskDialog(WL[0]._hwnd, AppString " - WindowsInfo|hWnd: <" WL[0]._hwnd ">|Title: <" WL[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
@@ -402,6 +446,7 @@ Tab1(GuiControl, WL) {
 
 Tab2(GuiControl, WL) {
 	Global AppString
+	OutputDebug % "[EDE-Keypress] Tab <2> - Key <" GuiControl ">"
    	NotYetImplemented()
 	HideGUI()
     return
@@ -409,6 +454,7 @@ Tab2(GuiControl, WL) {
 
 Tab3(GuiControl, WL) {
 	Global AppString
+	OutputDebug % "[EDE-Keypress] Tab <3> - Key <" GuiControl ">"
 	NotYetImplemented()
 	HideGUI()
     return
@@ -416,8 +462,15 @@ Tab3(GuiControl, WL) {
 
 Tab4(GuiControl, WL) {
 	Global AppString
+	OutputDebug % "[EDE-Keypress] Tab <4> - Key <" GuiControl ">"
 	if (GuiControl == "Sub") {
 		TaskDialog(0, AppString " - About|hWnd: <" WL[0]._hwnd ">|Title: <" WL[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+	}
+	else if(GuiControl == "1") {
+		LoadConfig()
+	}
+	else if(GuiControl == "2") {
+		ShowConfig()
 	}
 	else {
     	NotYetImplemented()
@@ -430,4 +483,14 @@ activeTabID() {
 	Global activeTab
 	TabId := RegExReplace(activeTab, "i)Tab(\d+)", "$1")
 	return TabId
+}
+
+LoadConfig() {
+	Global Config
+	config := new EDE_XMLConfig()
+}
+
+ShowConfig() {
+	Global Config
+	WinWaitClose % "ahk_id " ObjTree(config.contents, "EDE-Configuration as Object")
 }
