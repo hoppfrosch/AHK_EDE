@@ -7,23 +7,33 @@
 #include <WindowHandler>
 #Include <EDE_XMLConfig>
 
-AppName := "EDE"
-AppVersion := "0.3.0"
-
-AppString := AppName " V" AppVersion
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Global Variables
-activeTab := "Tab1"  ; Global variable used to store, which GUI-Tab is currently active
-activeWinHWND := 
-WinList := object()
-EDEActive := 0
-config := object()
+gEDE := object()
+gEDE.State := object()
+gEDE.State.Active := object()
+gEDE.State.WinList := object()
+gEDE.Info := object()
+gEDE.Info.App := object()
+gEDE.Config := object()
 
+gEde.State.EDEActive := 0
+gEDE.State.Active.Tab := "Tab1"
+gEDE.State.Active.hWnd := 
+
+gEDE.Info.App.Name := "EDE"
+gEDE.Info.App.Version := "0.3.1"
+
+gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
+
+;-------------------------------------------------------------------------------------------------------
+;------------------- Misc task for preparation
+SetTimer, ExpireRepeatedKeypress, 4000
 LoadConfig()
+
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Building up the GUI
-
 
 ; GUI is build from 4 separate GUIs - each represented by a 4x5 array of icons (representing  the NUMPAD)
 ; Row 0 represents the tab-row. Clicking on icon in row 0 will switch to another pseudo-tab (another GUI)
@@ -120,6 +130,7 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   res\puzzl
 Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   res\puzzle--exclamation.ico
 
 Menu, Tray, Icon, res\EDE.ico
+
 return 
 
 
@@ -129,6 +140,7 @@ $ESC::
 	MouseGetPos, , , id, control
 	WinGetTitle, title, ahk_id %id%
 	if (title == "EDE") {
+		gEDE.State.Active.hWnd := 
 		HideGUI()
 	}
 	else {
@@ -141,18 +153,18 @@ $ESC::
 	OutputDebug % ">[EDE] [Win-F1] pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
-	if (WinList[hwnd] == "" ) {
-		WinList[hwnd] := new WindowHandler(hwnd, 1)
+	if (gEDE.State.WinList[hwnd] == "" ) {
+		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
 	}
-	; WinList[0] contains always windowsHandler of currently active window
-	WinList[0] := WinList[hwnd]
-	ShowGui(activeTab, 1)
+	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
+	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
+	ShowGui(gEDE.State.Active.Tab, 1)
 	OutputDebug % "<[EDE] [Win-F1] done"
 	return
 
 
 $1::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		ShowGui("Tab1",1)
 	}
 	else {
@@ -161,7 +173,7 @@ $1::
 	return
 	
 $2::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		ShowGui("Tab2",1)
 	}
 	else {
@@ -170,7 +182,7 @@ $2::
 	return
 
 $3::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		ShowGui("Tab3",1)
 	}
 	else {
@@ -179,7 +191,7 @@ $3::
 	return
 
 $4::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		ShowGui("Tab4",1)
 	}
 	else {
@@ -188,9 +200,9 @@ $4::
 	return
 
 $NumpadMult::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("Mult", WinList)
+		Tab%id%("Mult")
 	}
 	else {
 		Send, {NumpadMult}
@@ -198,9 +210,9 @@ $NumpadMult::
 	return
 
 $NumpadSub::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("Sub", WinList)
+		Tab%id%("Sub")
 	}
 	else {
 		Send, {NumpadSub}
@@ -208,9 +220,9 @@ $NumpadSub::
 	return
 
 $NumpadAdd::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("Add", WinList)
+		Tab%id%("Add")
 	}
 	else {
 		Send, {NumpadAdd}
@@ -219,9 +231,9 @@ $NumpadAdd::
 
 
 $NumpadEnter::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("Enter", WinList)
+		Tab%id%("Enter")
 	}
 	else {
 		Send, {NumpadEnter}
@@ -229,9 +241,9 @@ $NumpadEnter::
 	return
 
 $NumpadDot::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("Dot", WinList)
+		Tab%id%("Dot")
 	}
 	else {
 		Send, {NumpadDot}
@@ -239,19 +251,19 @@ $NumpadDot::
 	return
 	
 $Numpad0::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("0", WinList)
+		Tab%id%("0")
 	}
 	else {
-		Send, {Numpad1}
+		Send, {Numpad0}
 	}
 	return
 	
 $Numpad1::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("1", WinList)
+		Tab%id%("1")
 	}
 	else {
 		Send, {Numpad1}
@@ -259,9 +271,9 @@ $Numpad1::
 	return
 
 $Numpad2::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("2", WinList)
+		Tab%id%("2")
 	}
 	else {
 		Send, {Numpad2}
@@ -269,9 +281,9 @@ $Numpad2::
 	return
 
 $Numpad3::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("3", WinList)
+		Tab%id%("3")
 	}
 	else {
 		Send, {Numpad3}
@@ -279,9 +291,9 @@ $Numpad3::
 	return
 
 $Numpad4::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("4", WinList)
+		Tab%id%("4")
 	}
 	else {
 		Send, {Numpad4}
@@ -289,9 +301,9 @@ $Numpad4::
 	return
 
 $Numpad5::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("5", WinList)
+		Tab%id%("5")
 	}
 	else {
 		Send, {Numpad5}
@@ -299,9 +311,9 @@ $Numpad5::
 	return
 
 $Numpad6::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("6", WinList)
+		Tab%id%("6")
 	}
 	else {
 		Send, {Numpad6}
@@ -309,9 +321,9 @@ $Numpad6::
 	return
 
 $Numpad7::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("7", WinList)
+		Tab%id%("7")
 	}
 	else {
 		Send, {Numpad7}
@@ -319,9 +331,9 @@ $Numpad7::
 	return
 
 $Numpad8::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("8", WinList)
+		Tab%id%("8")
 	}
 	else {
 		Send, {Numpad8}
@@ -329,9 +341,9 @@ $Numpad8::
 	return
 
 $Numpad9::
-	if (EDEActive == 1) {
+	if (gEde.State.EDEActive == 1) {
 		id := activeTabId()
-		Tab%id%("9", WinList)
+		Tab%id%("9")
 	}
 	else {
 		Send, {Numpad9}
@@ -349,32 +361,39 @@ GuiClose:
    ExitApp
 
 lTab1:
-	Tab1(A_GuiControl, WinList)
+	Tab1(A_GuiControl)
 	return
 
 lTab2:
-	Tab2(A_GuiControl, WinList)
+	Tab2(A_GuiControl)
 	return
 	
 lTab3:
-	Tab3(A_GuiControl, WinList)
+	Tab3(A_GuiControl)
 	return
 	
 lTab4:
-	Tab4(A_GuiControl, WinList)
+	Tab4(A_GuiControl)
 	return
 	
 NYI:
     NotYetImplemented()
     return
+	
+ExpireRepeatedKeypress:
+	if (gEDE.State.waitForRepeatedKeyPress == 1) {
+		MsgBox % "Repeated Keypress expired"
+		SetTimer, ExpireRepeatedKeypress
+		gEDE.State.waitForRepeatedKeyPress := 0
+	}
+	return
    
 ShowGui(tab := "Tab1", updatePos = 0) {
-	Global activeTab
-	Global EDEactive
-	TabId := RegExReplace(activeTab , "i)Tab(\d+)", "$1")
+	Global gEDE
+	TabId := RegExReplace(gEDE.State.Active.Tab , "i)Tab(\d+)", "$1")
 	Gui, %TabId%:hide
-	activeTab := tab
-	EDEactive := 1
+	gEDE.State.Active.Tab := tab
+	gEde.State.EDEActive := 1
 	TabId := RegExReplace(tab, "i)Tab(\d+)", "$1")
 	if (updatePos == 1) {
 		; GUI is shown at current mouseposition
@@ -387,55 +406,70 @@ ShowGui(tab := "Tab1", updatePos = 0) {
 		WinGetPos, x, y, w, h,
 		Gui, %TabId%:Show
 	}
+	
+	WinGet, hWnd, ID, A 
+	gEDE.State.Active.hWnd := hWnd
 	return
 }
 
 HideGui() {
-	Global EDEactive
+	Global gEDE
 	TabId := activeTabId()
 	Gui, %TabId%:hide
-	EDEactive := 0
+	gEde.State.EDEActive := 0
 }
 
 NotYetImplemented() {
-    Global AppString
-    TaskDialog(0, AppString "|Not yet implemented|A_Gui: <" A_Gui ">`nA_GuiControl: <" A_GuiControl ">`nA_GuiEvent: <" A_GuiEvent ">`nA_EventInfo: <" A_EventInfo ">", "", 1, "WARNING")
+    Global gEDE
+    TaskDialog(0, gEDE.Info.App.NameVersion "|Not yet implemented|A_Gui: <" A_Gui ">`nA_GuiControl: <" A_GuiControl ">`nA_GuiEvent: <" A_GuiEvent ">`nA_EventInfo: <" A_EventInfo ">", "", 1, "WARNING")
 }
 
-Tab1(GuiControl, WL) {
-	Global AppString
+Tab1(GuiControl) {
+	Global gEDE
 	
-	OutputDebug % "[EDE-Keypress] Tab <1> - Key <" GuiControl ">"
+	gEDE.State.currentTab := 1
+	gEDE.State.currentKey := GuiControl
+	
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
 	
 	if (GuiControl == "Sub") {
-		TaskDialog(WL[0]._hwnd, AppString " - WindowsInfo|hWnd: <" WL[0]._hwnd ">|Title: <" WL[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(GuiControl == "1") {
-		WL[0].movePercental(0, 50, 50, 50)
+		gEDE.State.WinList[0].movePercental(0, 50, 50, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "2") {
-		WL[0].movePercental(0, 50, 100, 50)
+		gEDE.State.WinList[0].movePercental(0, 50, 100, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "3") {
-		WL[0].movePercental(50, 50, 50, 50)
+		gEDE.State.WinList[0].movePercental(50, 50, 50, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "4") {
-		WL[0].movePercental(0, 0, 50, 100)
+		gEDE.State.WinList[0].movePercental(0, 0, 50, 100)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "5") {
-		WL[0].movePercental(25, 25, 50, 50)
+		gEDE.State.WinList[0].movePercental(25, 25, 50, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "6") {
-		WL[0].movePercental(50, 0, 50, 100)
+		gEDE.State.WinList[0].movePercental(50, 0, 50, 100)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "7") {
-		WL[0].movePercental(0, 0, 50, 50)
+		gEDE.State.WinList[0].movePercental(0, 0, 50, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "8") {
-		WL[0].movePercental(0, 0, 100, 50)
+		gEDE.State.WinList[0].movePercental(0, 0, 100, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else if(GuiControl == "9") {
-		WL[0].movePercental(50, 0, 50, 50)
+		gEDE.State.WinList[0].movePercental(50, 0, 50, 50)
+		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else {
 		NotYetImplemented()
@@ -444,33 +478,45 @@ Tab1(GuiControl, WL) {
     return
 }
 
-Tab2(GuiControl, WL) {
-	Global AppString
-	OutputDebug % "[EDE-Keypress] Tab <2> - Key <" GuiControl ">"
+Tab2(GuiControl) {
+	Global gEDE
+	gEDE.State.currentTab := 1
+	gEDE.State.currentKey := GuiControl
+	
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	
    	NotYetImplemented()
 	HideGUI()
     return
 }
 
-Tab3(GuiControl, WL) {
-	Global AppString
-	OutputDebug % "[EDE-Keypress] Tab <3> - Key <" GuiControl ">"
+Tab3(GuiControl) {
+	Global gEDE
+	gEDE.State.currentTab := 1
+	gEDE.State.currentKey := GuiControl
+	
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	
 	NotYetImplemented()
 	HideGUI()
     return
 }
 
-Tab4(GuiControl, WL) {
-	Global AppString
-	OutputDebug % "[EDE-Keypress] Tab <4> - Key <" GuiControl ">"
+Tab4(GuiControl) {
+	Global gEDE
+	gEDE.State.currentTab := 1
+	gEDE.State.currentKey := GuiControl
+	
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	
 	if (GuiControl == "Sub") {
-		TaskDialog(0, AppString " - About|hWnd: <" WL[0]._hwnd ">|Title: <" WL[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(GuiControl == "1") {
 		LoadConfig()
 	}
 	else if(GuiControl == "2") {
-		ShowConfig()
+		ShowgEDE()
 	}
 	else {
     	NotYetImplemented()
@@ -480,17 +526,18 @@ Tab4(GuiControl, WL) {
 }
 
 activeTabID() {
-	Global activeTab
-	TabId := RegExReplace(activeTab, "i)Tab(\d+)", "$1")
+	Global gEDE
+	TabId := RegExReplace(gEDE.State.Active.Tab, "i)Tab(\d+)", "$1")
 	return TabId
 }
 
 LoadConfig() {
-	Global Config
+	Global gEDE
 	config := new EDE_XMLConfig()
+	gEde.Config := config.contents
 }
 
-ShowConfig() {
-	Global Config
-	WinWaitClose % "ahk_id " ObjTree(config.contents, "EDE-Configuration as Object")
+ShowgEDE() {
+	Global gEde
+	WinWaitClose % "ahk_id " ObjTree(gEde, "EDE-Global configuration/state")
 }
