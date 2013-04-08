@@ -21,7 +21,7 @@
 ; ******************************************************************************************************************************************
 class EDE_XMLConfig {
 	
-	_version := "0.1.0"
+	_version := "0.1.1"
 	_debug := 0 ; _DBG_	
 	filename := ""
 	contents := object()
@@ -41,6 +41,7 @@ class EDE_XMLConfig {
 			iDir := 0
 			for currDir in Dirs {
 				iDir++
+				this.contents.align[iDir] := object()
 				Positions := this.xml.getChildren("//Align/Dir[" iDir "]", "element")
 				iPositions := 0
 				for v in Positions {
@@ -57,8 +58,10 @@ class EDE_XMLConfig {
 					oPos.y := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "y")
 					oPos.width := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "width")
 					oPos.height := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "height")
-					this.contents.align[iDir, iPos] := oPos
+					this.contents.align[iDir].pos[iPos] := oPos
 				}
+				this.contents.align[iDir].cnt := iPos
+				this.contents.align[iDir].compass := this.xml.getAtt("//Align/Dir[" iDir "]", "compass") ; getAtt() method
 			}
 		}
 	}
