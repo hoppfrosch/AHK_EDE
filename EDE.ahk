@@ -14,16 +14,22 @@ gEDE := object()
 gEDE.State := object()
 gEDE.State.Active := object()
 gEDE.State.WinList := object()
+gEDE.State.Key := object()
+gEDE.State.Tab := object()
+gEDE.State.Tab.current := object()
 gEDE.Info := object()
 gEDE.Info.App := object()
 gEDE.Config := object()
 
 gEde.State.EDEActive := 0
-gEDE.State.Active.Tab := "Tab1"
-gEDE.State.Active.hWnd := 
+gEDE.State.Tab.Current.Name := "Tab1"
+gEDE.State.Tab.Current.hWnd := 
+
+gEDE.State.Key.Current := ""
+gEDE.State.Key.Previous := ""
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.3.1"
+gEDE.Info.App.Version := "0.3.2"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -140,7 +146,7 @@ $ESC::
 	MouseGetPos, , , id, control
 	WinGetTitle, title, ahk_id %id%
 	if (title == "EDE") {
-		gEDE.State.Active.hWnd := 
+		gEDE.State.Tab.Current.hWnd := 
 		HideGUI()
 	}
 	else {
@@ -158,7 +164,7 @@ $ESC::
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
 	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
-	ShowGui(gEDE.State.Active.Tab, 1)
+	ShowGui(gEDE.State.Tab.Current.Name, 1)
 	OutputDebug % "<[EDE] [Win-F1] done"
 	return
 
@@ -390,9 +396,10 @@ ExpireRepeatedKeypress:
    
 ShowGui(tab := "Tab1", updatePos = 0) {
 	Global gEDE
-	TabId := RegExReplace(gEDE.State.Active.Tab , "i)Tab(\d+)", "$1")
+	TabId := RegExReplace(gEDE.State.Tab.Current.Name , "i)Tab(\d+)", "$1")
 	Gui, %TabId%:hide
-	gEDE.State.Active.Tab := tab
+	gEDE.State.Tab.Current.Name := tab
+	gEDE.State.Tab.Current.Id := TabId
 	gEde.State.EDEActive := 1
 	TabId := RegExReplace(tab, "i)Tab(\d+)", "$1")
 	if (updatePos == 1) {
@@ -408,7 +415,7 @@ ShowGui(tab := "Tab1", updatePos = 0) {
 	}
 	
 	WinGet, hWnd, ID, A 
-	gEDE.State.Active.hWnd := hWnd
+	gEDE.State.Tab.Current.hWnd := hWnd
 	return
 }
 
@@ -426,13 +433,13 @@ NotYetImplemented() {
 
 Tab1(GuiControl) {
 	Global gEDE
+	gEDE.State.Key.Previous := gEDE.State.Key.Current
+	gEDE.State.Key.Current := GuiControl
 	
-	gEDE.State.currentTab := 1
-	gEDE.State.currentKey := GuiControl
-	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
 	
 	if (GuiControl == "Sub") {
+		HideGUI()
 		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(GuiControl == "1") {
@@ -472,18 +479,18 @@ Tab1(GuiControl) {
 		gEDE.State.waitForRepeatedKeyPress := 1
 	}
 	else {
+		HideGUI()
 		NotYetImplemented()
 	}
-	HideGUI()
     return
 }
 
 Tab2(GuiControl) {
 	Global gEDE
-	gEDE.State.currentTab := 1
-	gEDE.State.currentKey := GuiControl
+	gEDE.State.Key.Previous := gEDE.State.Key.Current
+	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
 	
    	NotYetImplemented()
 	HideGUI()
@@ -492,10 +499,10 @@ Tab2(GuiControl) {
 
 Tab3(GuiControl) {
 	Global gEDE
-	gEDE.State.currentTab := 1
-	gEDE.State.currentKey := GuiControl
+	gEDE.State.Key.Previous := gEDE.State.Key.Current
+	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
 	
 	NotYetImplemented()
 	HideGUI()
@@ -504,12 +511,13 @@ Tab3(GuiControl) {
 
 Tab4(GuiControl) {
 	Global gEDE
-	gEDE.State.currentTab := 1
-	gEDE.State.currentKey := GuiControl
+	gEDE.State.Key.Previous := gEDE.State.Key.Current
+	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.currentTab "> - Key <" gEDE.State.currentKey ">"
+	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
 	
 	if (GuiControl == "Sub") {
+		HideGUI()
 		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(GuiControl == "1") {
@@ -517,17 +525,18 @@ Tab4(GuiControl) {
 	}
 	else if(GuiControl == "2") {
 		ShowgEDE()
+		HideGUI()
 	}
 	else {
+		HideGUI()
     	NotYetImplemented()
 	}
-	HideGUI()
     return
 }
 
 activeTabID() {
 	Global gEDE
-	TabId := RegExReplace(gEDE.State.Active.Tab, "i)Tab(\d+)", "$1")
+	TabId := RegExReplace(gEDE.State.Tab.Current.Name, "i)Tab(\d+)", "$1")
 	return TabId
 }
 
