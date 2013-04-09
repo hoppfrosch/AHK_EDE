@@ -28,9 +28,14 @@
 			<Pos x="0.00" y="0.00" width="66.67" height="100.00"/>
 		</Dir>
 		<Dir kp="5" compass="center">
+			<Pos x="33.33" y="33.33" width="33.33" height="33.33"/>
+			<Pos x="25.00" y="25.00" width="50.00" height="50.00"/>
+			<Pos x="16.67" y="16.67" width="66.67" height="66.67"/>
 			<Pos x="0.00" y="0.00" width="100.00" height="100.00"/>
-			<Pos x="33.33" y="0.00" width="33.33" height="100.00"/>
 			<Pos x="16.67" y="0.00" width="66.67" height="100.00"/>
+			<Pos x="33.33" y="0.00" width="33.33" height="100.00"/>
+			<Pos x="0.00" y="16.67" width="100.00" height="66.67"/>
+			<Pos x="0.00" y="33.33" width="100.00" height="33.33"/>
 		</Dir>
 		<Dir kp="6" compass="east"> 
 			<Pos x="50.00" y="0.00" width="50.00" height="100.00"/>
