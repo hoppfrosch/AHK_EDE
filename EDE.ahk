@@ -27,15 +27,16 @@ gEDE.State.Tab.Current.hWnd :=
 
 gEDE.State.Key.Current := ""
 gEDE.State.Key.Previous := ""
+gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.3.2"
+gEDE.Info.App.Version := "0.3.3"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Misc task for preparation
-SetTimer, ExpireRepeatedKeypress, 4000
+SetTimer, ExpireReprisedKeypress, 10000
 LoadConfig()
 
 ;-------------------------------------------------------------------------------------------------------
@@ -155,12 +156,12 @@ $ESC::
 	return 
 	
 
-#F1::
+#Numlock::
 	OutputDebug % ">[EDE] [Win-F1] pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
 	if (gEDE.State.WinList[hwnd] == "" ) {
-		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
+		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 0)
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
 	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
@@ -169,193 +170,39 @@ $ESC::
 	return
 
 
+; Toggling the tabs by pressing a simple number
+#If (gEde.State.EDEActive == 1)
 $1::
-	if (gEde.State.EDEActive == 1) {
-		ShowGui("Tab1",1)
-	}
-	else {
-		Send, 1
-	}
-	return
-	
 $2::
-	if (gEde.State.EDEActive == 1) {
-		ShowGui("Tab2",1)
-	}
-	else {
-		Send, 2
-	}
-	return
-
 $3::
-	if (gEde.State.EDEActive == 1) {
-		ShowGui("Tab3",1)
-	}
-	else {
-		Send, 3
-	}
-	return
-
 $4::
-	if (gEde.State.EDEActive == 1) {
-		ShowGui("Tab4",1)
-	}
-	else {
-		Send, 4
-	}
+	id := SubStr(A_ThisHotkey,2)
+	Tab := "Tab" id
+	ShowGui(Tab, 1)
 	return
-
+	
+; Numpad-Keypress on a certain tab
+#If (gEde.State.EDEActive == 1)
+$NumLock::
+$NumpadDiv::
 $NumpadMult::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("Mult")
-	}
-	else {
-		Send, {NumpadMult}
-	}
-	return
-
 $NumpadSub::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("Sub")
-	}
-	else {
-		Send, {NumpadSub}
-	}
-	return
-
 $NumpadAdd::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("Add")
-	}
-	else {
-		Send, {NumpadAdd}
-	}
-	return
-
-
 $NumpadEnter::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("Enter")
-	}
-	else {
-		Send, {NumpadEnter}
-	}
-	return
-
 $NumpadDot::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("Dot")
-	}
-	else {
-		Send, {NumpadDot}
-	}
-	return
-	
 $Numpad0::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("0")
-	}
-	else {
-		Send, {Numpad0}
-	}
-	return
-	
 $Numpad1::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("1")
-	}
-	else {
-		Send, {Numpad1}
-	}
-	return
-
 $Numpad2::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("2")
-	}
-	else {
-		Send, {Numpad2}
-	}
-	return
-
 $Numpad3::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("3")
-	}
-	else {
-		Send, {Numpad3}
-	}
-	return
-
 $Numpad4::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("4")
-	}
-	else {
-		Send, {Numpad4}
-	}
-	return
-
 $Numpad5::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("5")
-	}
-	else {
-		Send, {Numpad5}
-	}
-	return
-
 $Numpad6::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("6")
-	}
-	else {
-		Send, {Numpad6}
-	}
-	return
-
 $Numpad7::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("7")
-	}
-	else {
-		Send, {Numpad7}
-	}
-	return
-
 $Numpad8::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("8")
-	}
-	else {
-		Send, {Numpad8}
-	}
-	return
-
 $Numpad9::
-	if (gEde.State.EDEActive == 1) {
-		id := activeTabId()
-		Tab%id%("9")
-	}
-	else {
-		Send, {Numpad9}
-	}
-	return
-
+	id := activeTabId()
+	Tab%id%(SubStr(A_ThisHotkey,8)) ; 
+	Return
 
 ; ----------------------------------------------------------------------------
 ; --- Labels -----------------------------------------------------------------
@@ -386,11 +233,13 @@ NYI:
     NotYetImplemented()
     return
 	
-ExpireRepeatedKeypress:
-	if (gEDE.State.waitForRepeatedKeyPress == 1) {
-		MsgBox % "Repeated Keypress expired"
-		SetTimer, ExpireRepeatedKeypress
-		gEDE.State.waitForRepeatedKeyPress := 0
+ExpireReprisedKeypress:
+	if (gEDE.State.waitForReprisedKeyPress == 1) {
+		OutputDebug % ">>>>>>>>>>>>>>>>Reprised Keypress expired<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+		gEDE.State.waitForReprisedKeyPress := 0
+		gEDE.State.Key.Reprise := 0
+		gEDE.State.Key.Previous := ""
+		SetTimer, ExpireReprisedKeypress
 	}
 	return
    
@@ -433,50 +282,32 @@ NotYetImplemented() {
 
 Tab1(GuiControl) {
 	Global gEDE
+	
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
+	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
+	; If a Numpad-Key is pressed repeatedly, cycle through the configuration ....
+	if (gEDE.State.Key.Previous == gEDE.State.Key.Current) {
+		gEDE.State.Key.Reprise := gEDE.State.Key.Reprise + 1
+		if (gEDE.State.Key.Reprise > gEDE.Config.align[gEDE.State.Key.Current].cnt) {
+			gEDE.State.Key.Reprise := 1
+		}
+	}
+	else {
+		gEDE.State.Key.Reprise := 1
+	}
 	
-	if (GuiControl == "Sub") {
+	if (gEDE.State.Key.Current == "Sub") {
 		HideGUI()
-		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
-	else if(GuiControl == "1") {
-		gEDE.State.WinList[0].movePercental(0, 50, 50, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "2") {
-		gEDE.State.WinList[0].movePercental(0, 50, 100, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "3") {
-		gEDE.State.WinList[0].movePercental(50, 50, 50, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "4") {
-		gEDE.State.WinList[0].movePercental(0, 0, 50, 100)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "5") {
-		gEDE.State.WinList[0].movePercental(25, 25, 50, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "6") {
-		gEDE.State.WinList[0].movePercental(50, 0, 50, 100)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "7") {
-		gEDE.State.WinList[0].movePercental(0, 0, 50, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "8") {
-		gEDE.State.WinList[0].movePercental(0, 0, 100, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
-	}
-	else if(GuiControl == "9") {
-		gEDE.State.WinList[0].movePercental(50, 0, 50, 50)
-		gEDE.State.waitForRepeatedKeyPress := 1
+	else if(gEDE.State.Key.Current >= "1" && gEDE.State.Key.Current <= "9") { ; Any key of Numpad1 to Numpad9 is pressed ...
+		factors := gEDE.Config.align[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
+		OutputDebug % "*** Key "gEDE.State.Key.Current "- Reprise:" gEDE.State.Key.Reprise ":" factors.x "-" factors.y "-" factors.width "-" factors.height
+		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.width, factors.height)
+		gEDE.State.waitForReprisedKeyPress := 1
+		SetTimer, ExpireReprisedKeypress
 	}
 	else {
 		HideGUI()
@@ -490,7 +321,7 @@ Tab2(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
+	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
 	
    	NotYetImplemented()
 	HideGUI()
@@ -502,7 +333,7 @@ Tab3(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
+	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
 	
 	NotYetImplemented()
 	HideGUI()
@@ -514,16 +345,16 @@ Tab4(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	
-	OutputDebug % "[EDE-Keypress] Tab <" gEDE.State.Tab.Current.Id "> - Key <" gEDE.State.Key.Current ">"
+	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
 	
-	if (GuiControl == "Sub") {
+	if (gEDE.State.Key.Current == "Sub") {
 		HideGUI()
 		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
-	else if(GuiControl == "1") {
+	else if(gEDE.State.Key.Current == "1") {
 		LoadConfig()
 	}
-	else if(GuiControl == "2") {
+	else if(gEDE.State.Key.Current == "2") {
 		ShowgEDE()
 		HideGUI()
 	}
