@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EDE_Configuration>
+	<General>
+		<RepeatedKeypress>
+			<Timeout unit="ms">5000</Timeout>
+		</RepeatedKeypress>
+	</General>
 	<Align>
 		<!-- 
 		Each <Dir>-node represents one direction on the compass and corresponds a key on NUMPAD (e.g. Numpad-8 is identical with north)
