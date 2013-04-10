@@ -30,14 +30,16 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.3.3"
+gEDE.Info.App.Version := "0.3.4"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Misc task for preparation
-SetTimer, ExpireReprisedKeypress, 10000
 LoadConfig()
+
+val := gEDE.config.RepeatedKeypress.Timeout.text
+SetTimer, ExpireReprisedKeypress, %val%
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Building up the GUI
@@ -141,7 +143,8 @@ Menu, Tray, Icon, res\EDE.ico
 return 
 
 
-
+;-------------------------------------------------------------------------------------------------------
+;------------------- Hotkeys
 $ESC::
 	; Hide EDE-window if mouse is over EDE-GUI 
 	MouseGetPos, , , id, control
@@ -157,7 +160,7 @@ $ESC::
 	
 
 #Numlock::
-	OutputDebug % ">[EDE] [Win-F1] pressed"
+	OutputDebug % ">[EDE] " A_ThisHotkey " pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
 	if (gEDE.State.WinList[hwnd] == "" ) {
@@ -243,6 +246,8 @@ ExpireReprisedKeypress:
 	}
 	return
    
+; ----------------------------------------------------------------------------
+; --- Functions --------------------------------------------------------------
 ShowGui(tab := "Tab1", updatePos = 0) {
 	Global gEDE
 	TabId := RegExReplace(gEDE.State.Tab.Current.Name , "i)Tab(\d+)", "$1")
