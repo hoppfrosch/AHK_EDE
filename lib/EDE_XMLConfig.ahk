@@ -21,7 +21,7 @@
 ; ******************************************************************************************************************************************
 class EDE_XMLConfig {
 	
-	_version := "0.1.1"
+	_version := "0.1.2"
 	_debug := 0 ; _DBG_	
 	filename := ""
 	contents := object()
@@ -31,6 +31,16 @@ class EDE_XMLConfig {
 		this.xml := new xml(this.filename)
 		
 		this.parseAlign()
+		this.parseGeneral()
+	}
+	
+	parseGeneral() {
+		this.contents.RepeatedKeypress := object()
+		this.contents.RepeatedKeypress.Timeout := object()
+		if this.xml.documentElement {
+			this.contents.RepeatedKeypress.Timeout.unit := this.xml.getAtt("//General/RepeatedKeypress/Timeout", "unit")
+		    this.contents.RepeatedKeypress.Timeout.text := this.xml.getText("//General/RepeatedKeypress/Timeout")
+		}
 	}
 	
 	parseAlign() {
