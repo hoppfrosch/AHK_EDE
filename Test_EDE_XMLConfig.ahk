@@ -1,3 +1,8 @@
+#Persistent
+;#Warn All
+;#Warn LocalSameAsGlobal, Off
+#SingleInstance force
+
 #Include <EDE_XMLConfig>
 
 config := new EDE_XMLConfig()
