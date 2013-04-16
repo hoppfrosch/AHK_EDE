@@ -30,7 +30,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.3.4"
+gEDE.Info.App.Version := "0.3.5"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -119,18 +119,23 @@ Loop 4 {
 
 ; Contents of Tab1
 tabTmp := 1
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% vSub, res\information-frame.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_7%    0x800000 glTab%tabTmp% v7,   res\arrow-135.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_4%    0x800000 glTab%tabTmp% v4,   res\arrow-180.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   res\arrow-225.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_8%    0x800000 glTab%tabTmp% v8,   res\arrow-090.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_5%    0x800000 glTab%tabTmp% v5,   res\dot.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   res\arrow-270.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_9%    0x800000 glTab%tabTmp% v9,   res\arrow-045.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_6%    0x800000 glTab%tabTmp% v6,   res\arrow-000.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_3%    0x800000 glTab%tabTmp% v3,   res\arrow-315.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%  0x800000 gNYI          vAdd, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%          gNYI,               res\arrow-circle.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% vDot,  res\information-frame.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% v7,    res\arrow-135.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% v4,    res\arrow-180.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% v1,    res\arrow-225.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% v8,    res\arrow-090.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% v5,    res\dot.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% v2,    res\arrow-270.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% v9,    res\arrow-045.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% v6,    res\arrow-000.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    res\arrow-315.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
+Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                res\arrow-circle.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\Plus.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  res\Minus.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, res\Cross.ico
+
 
 ; Contents of tab 4
 tabTmp := 4
@@ -164,7 +169,7 @@ $ESC::
 	; Get current window
 	WinGet, hWnd, ID, A 
 	if (gEDE.State.WinList[hwnd] == "" ) {
-		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 0)
+		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
 	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
@@ -303,7 +308,7 @@ Tab1(GuiControl) {
 		gEDE.State.Key.Reprise := 1
 	}
 	
-	if (gEDE.State.Key.Current == "Sub") {
+	if (gEDE.State.Key.Current == "Dot") {
 		HideGUI()
 		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
@@ -313,6 +318,18 @@ Tab1(GuiControl) {
 		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.width, factors.height)
 		gEDE.State.waitForReprisedKeyPress := 1
 		SetTimer, ExpireReprisedKeypress
+	}
+	else if(gEDE.State.Key.Current == "Add") {
+		HideGUI()
+		gEDE.State.WinList[0].maximize()
+	}
+	else if(gEDE.State.Key.Current == "Sub") {
+		HideGUI()
+		gEDE.State.WinList[0].minimize()
+	}
+	else if(gEDE.State.Key.Current == "Mult") {
+		HideGUI()
+		gEDE.State.WinList[0].kill()
 	}
 	else {
 		HideGUI()
