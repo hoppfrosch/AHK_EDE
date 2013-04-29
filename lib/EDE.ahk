@@ -25,4 +25,5 @@
 	License: WTFPL
 */
 
+;!GenDocs-Import Rectangle.ahk
 ;!GenDocs-Import WindowHandler.ahk
