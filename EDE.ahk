@@ -135,6 +135,7 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd,
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\arrow-out.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  res\arrow-in.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, res\Cross.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  res\Pin.ico
 
 
 ; Contents of tab 4
@@ -330,6 +331,10 @@ Tab1(GuiControl) {
 	else if(gEDE.State.Key.Current == "Mult") {
 		HideGUI()
 		gEDE.State.WinList[0].kill()
+	}
+	else if(gEDE.State.Key.Current == "Div") {
+		HideGUI()
+		gEDE.State.WinList[0].alwaysOnTop := !gEDE.State.WinList[0].alwaysOnTop
 	}
 	else {
 		HideGUI()
