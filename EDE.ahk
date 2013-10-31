@@ -132,8 +132,8 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    res\arr
 Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                res\arrow-circle.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\Plus.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  res\Minus.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\arrow-out.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  res\arrow-in.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, res\Cross.ico
 
 
