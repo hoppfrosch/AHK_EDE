@@ -321,11 +321,11 @@ Tab1(GuiControl) {
 	}
 	else if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
-		gEDE.State.WinList[0].maximize()
+		gEDE.State.WinList[0].maximized := 1
 	}
 	else if(gEDE.State.Key.Current == "Sub") {
 		HideGUI()
-		gEDE.State.WinList[0].minimize()
+		gEDE.State.WinList[0].minimized := 1
 	}
 	else if(gEDE.State.Key.Current == "Mult") {
 		HideGUI()
