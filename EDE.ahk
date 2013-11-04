@@ -80,7 +80,7 @@ pos_NP_03   := "x14 y104 w16 h16"  ; Numpad "0"-key (right)
 pos_NP_DOT  := "x44 y104 w16 h16"  ; Numpad ","-key
 
 icoTab1 := "res\arrow-move.ico"
-icoTab2 := "res\animal-dog.ico"
+icoTab2 := "res\monitor.ico"
 icoTab3 := "res\animal-monkey.ico"
 icoTab4 := "res\animal-penguin.ico"
 
@@ -139,6 +139,10 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  res\Pin
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% vEnter, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%,       res\arrow-resize-090.ico
 
+; Contents of tab 2
+tabTmp :=  2
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\monitor--arrow.ico
 
 ; Contents of tab 4
 tabTmp := 4
@@ -353,11 +357,23 @@ Tab2(GuiControl) {
 	Global gEDE
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
-	
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
-	
-   	NotYetImplemented()
-	HideGUI()
+
+	 if(gEDE.State.Key.Current == "Add") {
+		HideGUI()
+		obj := new MultiMonitorEnv()
+		newID := gEDE.State.WinList[0].monitorID + 1
+
+		; Wrap on last monitor
+		if (newID> obj.monCount()) {
+			newID := 1
+		}
+		gEDE.State.WinList[0].monitorID := newID
+	}
+	else {
+   		NotYetImplemented()
+		HideGUI()
+	}
     return
 }
 
