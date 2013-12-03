@@ -7,6 +7,7 @@
 #include <WindowHandler>
 #Include <EDE_XMLConfig>
 
+SetWorkingDir %A_ScriptDir%  
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Global Variables
@@ -30,7 +31,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.5.6"
+gEDE.Info.App.Version := "0.5.7"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -79,10 +80,10 @@ pos_NP_02   := "x24 y104 w16 h16"  ; Numpad "0"-key (right)
 pos_NP_03   := "x14 y104 w16 h16"  ; Numpad "0"-key (right)
 pos_NP_DOT  := "x44 y104 w16 h16"  ; Numpad ","-key
 
-icoTab1 := "res\arrow-move.ico"
-icoTab2 := "res\animal-dog.ico"
-icoTab3 := "res\animal-monkey.ico"
-icoTab4 := "res\animal-penguin.ico"
+icoTab1 := A_ScriptDir "\res\arrow-move.ico"
+icoTab2 := A_ScriptDir "\res\monitor.ico"
+icoTab3 := A_ScriptDir "\res\animal-monkey.ico"
+icoTab4 := A_ScriptDir "\res\animal-penguin.ico"
 
 Loop 4 {
 	Gui %A_Index%:+LastFound +AlwaysOnTop
@@ -119,34 +120,38 @@ Loop 4 {
 
 ; Contents of Tab1
 tabTmp := 1
-Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% vDot,  res\information-frame.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% v7,    res\arrow-135.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% v4,    res\arrow-180.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% v1,    res\arrow-225.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% v8,    res\arrow-090.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% v5,    res\dot.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% v2,    res\arrow-270.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% v9,    res\arrow-045.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% v6,    res\arrow-000.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    res\arrow-315.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% vDot,  %A_ScriptDir%\res\information-frame.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% v7,    %A_ScriptDir%\res\arrow-135.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% v4,    %A_ScriptDir%\res\arrow-180.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% v1,    %A_ScriptDir%\res\arrow-225.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% v8,    %A_ScriptDir%\res\arrow-090.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% v5,    %A_ScriptDir%\res\dot.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% v2,    %A_ScriptDir%\res\arrow-270.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% v9,    %A_ScriptDir%\res\arrow-045.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% v6,    %A_ScriptDir%\res\arrow-000.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    %A_ScriptDir%\res\arrow-315.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                res\arrow-circle.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                %A_ScriptDir%\res\arrow-circle.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       res\arrow-out.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  res\arrow-in.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, res\Cross.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  res\Pin.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-out.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  %A_ScriptDir%\res\arrow-in.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, %A_ScriptDir%\res\Cross.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  %A_ScriptDir%\res\Pin.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% vEnter, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%,       res\arrow-resize-090.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-resize-090.ico
 
+; Contents of tab 2
+tabTmp :=  2
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       %A_ScriptDir%\res\monitor--arrow.ico
 
 ; Contents of tab 4
 tabTmp := 4
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% vSub, res\information-white.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   res\puzzle--pencil.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   res\puzzle--exclamation.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% vSub, %A_ScriptDir%\res\information-white.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   %A_ScriptDir%\res\puzzle--pencil.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   %A_ScriptDir%\res\puzzle--exclamation.ico
 
-Menu, Tray, Icon, res\EDE.ico
+Menu, Tray, Icon, %A_ScriptDir%\res\EDE.ico
 
 return 
 
@@ -353,11 +358,23 @@ Tab2(GuiControl) {
 	Global gEDE
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
-	
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
-	
-   	NotYetImplemented()
-	HideGUI()
+
+	 if(gEDE.State.Key.Current == "Add") {
+		HideGUI()
+		obj := new MultiMonitorEnv()
+		newID := gEDE.State.WinList[0].monitorID + 1
+
+		; Wrap on last monitor
+		if (newID> obj.monCount()) {
+			newID := 1
+		}
+		gEDE.State.WinList[0].monitorID := newID
+	}
+	else {
+   		NotYetImplemented()
+		HideGUI()
+	}
     return
 }
 
@@ -406,7 +423,7 @@ activeTabID() {
 
 LoadConfig() {
 	Global gEDE
-	config := new EDE_XMLConfig()
+	config := new EDE_XMLConfig(A_ScriptDir "\EDE.xml")
 	gEde.Config := config.contents
 }
 
