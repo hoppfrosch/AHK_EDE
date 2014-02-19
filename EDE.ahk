@@ -172,7 +172,10 @@ $ESC::
 	return 
 	
 
-#Numlock::
+#Numpad1::
+#Numpad2::
+#Numpad3::
+#Numpad4::
 	OutputDebug % ">[EDE] " A_ThisHotkey " pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
@@ -181,20 +184,11 @@ $ESC::
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
 	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
-	ShowGui(gEDE.State.Tab.Current.Name, 1)
-	OutputDebug % "<[EDE] [Win-F1] done"
-	return
-
-
-; Toggling the tabs by pressing a simple number
-#If (gEde.State.EDEActive == 1)
-$1::
-$2::
-$3::
-$4::
-	id := SubStr(A_ThisHotkey,2)
+	id := SubStr(A_ThisHotkey,0)
 	Tab := "Tab" id
+	OutputDebug % ">[EDE] Activating Tab <" Tab ">"
 	ShowGui(Tab, 1)
+	OutputDebug % "<[EDE] " A_ThisHotkey " done"
 	return
 	
 ; Numpad-Keypress on a certain tab
