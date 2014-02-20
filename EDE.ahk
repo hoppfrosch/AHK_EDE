@@ -4,6 +4,7 @@
 #SingleInstance force
 
 #include <TaskDialog>
+#include <TT>
 #include <WindowHandler>
 #Include <EDE_XMLConfig>
 
@@ -85,6 +86,7 @@ icoTab2 := A_ScriptDir "\res\monitor.ico"
 icoTab3 := A_ScriptDir "\res\animal-monkey.ico"
 icoTab4 := A_ScriptDir "\res\animal-penguin.ico"
 
+TT:=TT("Parent=1")
 Loop 4 {
 	Gui %A_Index%:+LastFound +AlwaysOnTop
 	WinSet, Transparent, 200
@@ -130,15 +132,34 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% v2,    %A_Scri
 Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% v9,    %A_ScriptDir%\res\arrow-045.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% v6,    %A_ScriptDir%\res\arrow-000.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    %A_ScriptDir%\res\arrow-315.ico
+TT.Add("Static5","Info","",%tabTmp%)
+TT.Add("Static6","Move to nordwest","",%tabTmp%)
+TT.Add("Static7","Move to west","",%tabTmp%)
+TT.Add("Static8","Move to southwest","",%tabTmp%)
+TT.Add("Static9","Move to north","",%tabTmp%)
+TT.Add("Static10","Move to center","",%tabTmp%)
+TT.Add("Static11","Move to south","",%tabTmp%)
+TT.Add("Static12","Move to northeast","",%tabTmp%)
+TT.Add("Static13","Move to east","",%tabTmp%)
+TT.Add("Static14","Move to southeast","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                %A_ScriptDir%\res\arrow-circle.ico
+TT.Add("Static15","Not yet implemented","",%tabTmp%)
+TT.Add("Static16","Not yet implemented","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-out.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  %A_ScriptDir%\res\arrow-in.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, %A_ScriptDir%\res\Cross.ico
 Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  %A_ScriptDir%\res\Pin.ico
+TT.Add("Static17","Maximize","",%tabTmp%)
+TT.Add("Static18","Maximize","",%tabTmp%)
+TT.Add("Static19","Minimize","",%tabTmp%)
+TT.Add("Static20","Kill","",%tabTmp%)
+TT.Add("Static21","Toggle AlwaysOnTop","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% vEnter, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-resize-090.ico
+TT.Add("Static22","Toggle RollUp","",%tabTmp%)
+TT.Add("Static23","Toggle RollUp","",%tabTmp%)
 
 ; Contents of tab 2
 tabTmp :=  2
