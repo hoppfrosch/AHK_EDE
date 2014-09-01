@@ -41,6 +41,24 @@ class EDE_XMLConfig {
 			this.contents.RepeatedKeypress.Timeout.unit := this.xml.getAtt("//General/RepeatedKeypress/Timeout", "unit")
 		    this.contents.RepeatedKeypress.Timeout.text := this.xml.getText("//General/RepeatedKeypress/Timeout")
 		}
+		else {
+			this.contents.RepeatedKeypress.Timeout.unit := "ms"
+			this.contents.RepeatedKeypress.Timeout.text := 5000
+		}
+
+		this.contents.AutoHide := object()
+		this.contents.AutoHide.Timeout := object()
+		if this.xml.documentElement {
+			if ( this.xml.getChildren("//General/AutoHide/Timeout", "text")) {
+				this.contents.AutoHide.Timeout.unit := this.xml.getAtt("//General/AutoHide/Timeout", "unit")
+		    	this.contents.AutoHide.Timeout.text := this.xml.getText("//General/AutoHide/Timeout")
+			}
+			else {
+				this.contents.AutoHide.Timeout.unit := "ms"
+				this.contents.AutoHide.Timeout.text := -1
+			}
+		}
+			
 	}
 	
 	parseAlign() {
