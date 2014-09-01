@@ -158,7 +158,7 @@ return
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Hotkeys
-$ESC::
+$ESC:: ; <--- Hide
 	; Hide EDE-window if mouse is over EDE-GUI 
 	MouseGetPos, , , id, control
 	WinGetTitle, title, ahk_id %id%
@@ -172,10 +172,10 @@ $ESC::
 	return 
 	
 
-#Numpad1::
-#Numpad2::
-#Numpad3::
-#Numpad4::
+#Numpad1:: ; <--- Activate/toggles EDE-Tab 1
+#Numpad2:: ; <--- Activate/toggles EDE-Tab 2
+#Numpad3:: ; <--- Activate/toggles EDE-Tab 3
+#Numpad4:: ; <--- Activate/toggles EDE-Tab 4
 	OutputDebug % ">[EDE] " A_ThisHotkey " pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
@@ -193,23 +193,23 @@ $ESC::
 	
 ; Numpad-Keypress on a certain tab
 #If (gEde.State.EDEActive == 1)
-$NumLock::
-$NumpadDiv::
-$NumpadMult::
-$NumpadSub::
-$NumpadAdd::
-$NumpadEnter::
-$NumpadDot::
-$Numpad0::
-$Numpad1::
-$Numpad2::
-$Numpad3::
-$Numpad4::
-$Numpad5::
-$Numpad6::
-$Numpad7::
-$Numpad8::
-$Numpad9::
+$NumLock:: ; <--- Action on the current activ EDE-Tab
+$NumpadDiv:: ; <--- Action on the current activ EDE-Tab
+$NumpadMult:: ; <--- Action on the current activ EDE-Tab
+$NumpadSub:: ; <--- Action on the current activ EDE-Tab
+$NumpadAdd:: ; <--- Action on the current activ EDE-Tab
+$NumpadEnter:: ; <--- Action on the current activ EDE-Tab
+$NumpadDot:: ; <--- Action on the current activ EDE-Tab
+$Numpad0:: ; <--- Action on the current activ EDE-Tab
+$Numpad1:: ; <--- Action on the current activ EDE-Tab
+$Numpad2:: ; <--- Action on the current activ EDE-Tab
+$Numpad3:: ; <--- Action on the current activ EDE-Tab
+$Numpad4:: ; <--- Action on the current activ EDE-Tab
+$Numpad5:: ; <--- Action on the current activ EDE-Tab
+$Numpad6:: ; <--- Action on the current activ EDE-Tab
+$Numpad7:: ; <--- Action on the current activ EDE-Tab
+$Numpad8:: ; <--- Action on the current activ EDE-Tab
+$Numpad9:: ; <--- Action on the current activ EDE-Tab
 	id := activeTabId()
 	Tab%id%(SubStr(A_ThisHotkey,8)) ; 
 	Return
