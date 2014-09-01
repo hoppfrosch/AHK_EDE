@@ -1,4 +1,4 @@
-﻿;: Title: _Struct by HotKeyIt
+;: Title: _Struct by HotKeyIt (http://www.autohotkey.com/board/topic/55150-class-structfunc-sizeof-updated-010412-ahkv2/)
 ;
 
 ; Function: _Struct
@@ -143,11 +143,11 @@ Class _Struct {
     } else _defobj_:=""
     ; If a pointer is supplied, save it in key [""] else reserve and zero-fill memory + set pointer in key [""]
     If (_pointer_ && !IsObject(_pointer_))
-      this[""] := _pointer_,this["`a"]:=0
+      this[""] := _pointer_,this["`a"]:=0,this["`a`a"]:=sizeof(_TYPE_)
     else
       this._SetCapacity("`a",_StructSize_:=sizeof(_TYPE_)) ; Set Capacity in key ["`a"]
       ,this[""]:=this._GetAddress("`a") ; Save pointer in key [""]
-      ,DllCall("RtlZeroMemory","UPTR",this[""],"UInt",_StructSize_) ; zero-fill memory
+      ,DllCall("RtlZeroMemory","UPTR",this[""],"UInt",this["`a`a"]:=_StructSize_) ; zero-fill memory
     ; C/C++ style structure definition, convert it
     If InStr(_TYPE_,"`n") {
       _struct_:=[] ; keep track of structures (union is just removed because {} = union, struct{} = struct
@@ -221,9 +221,14 @@ Class _Struct {
           If (IsObject(_init_)||IsObject(_pointer_)){ ; Initialization of structures members, e.g. _Struct(_RECT,{left:10,right:20})
             for _key_,_value_ in IsObject(_init_)?_init_:_pointer_
             {
-              If !this["`r"] ; It is not a pointer, assign value
-                this[_key_] := _value_
-              else if (_value_<>"") ; It is not empty
+              If !this["`r"]{ ; It is not a pointer, assign value
+                If InStr(",LPSTR,LPCSTR,LPTSTR,LPCTSTR,LPWSTR,LPCWSTR,","," this["`t" _key_] ",")
+                  this.Alloc(_key_,StrLen(_value_)*(InStr(".LPWSTR,LPCWSTR,","," this["`t"] ",")||(InStr(",LPTSTR,LPCTSTR,","," this["`t" _key_] ",")&&A_IsUnicode)?2:1))
+                if InStr(",LPSTR,LPCSTR,LPTSTR,LPCTSTR,LPWSTR,LPCWSTR,CHAR,TCHAR,WCHAR,","," this["`t" _key_] ",")
+                  this[_key_]:=_value_
+                else 
+                  this[_key_] := _value_
+              }else if (_value_<>"") ; It is not empty
                 If _value_ is integer ; It is a new pointer
                   this[_key_][""]:=_value_
             }
@@ -239,20 +244,20 @@ Class _Struct {
           else _defobj_:=_defobj_[A_LoopField]
       }
       if (!_IsPtr_ && !_Struct.HasKey(_ArrType_)){  ; _ArrType_ not found resolve to global variable (must contain struct definition)
-          If (A_PtrSize=8)
+          ; If (A_PtrSize=8)
 			_offset_+=sizeof(_defobj_?_defobj_:%_ArrType_%,_offset_)-_offset_-sizeof(_defobj_?_defobj_:%_ArrType_%)
           _Struct.___InitField(this,_ArrName_,_offset_,_ArrType_,0,0,_ArrType_,_ArrSize_)
           ; update current union size
         If _union_.MaxIndex()
-          _union_size_[_union_.MaxIndex()]:=(_offset_ + _Struct[this["`n" _ArrName_]] - _union_[_union_.MaxIndex()]>_union_size_[_union_.MaxIndex()])
-                                            ?(_offset_ + _Struct[this["`n" _ArrName_]] - _union_[_union_.MaxIndex()]):_union_size_[_union_.MaxIndex()]
+          _union_size_[_union_.MaxIndex()]:=(_offset_ + sizeof(_defobj_?_defobj_:%_ArrType_%) - _union_[_union_.MaxIndex()]>_union_size_[_union_.MaxIndex()])
+                                            ?(_offset_ + sizeof(_defobj_?_defobj_:%_ArrType_%) - _union_[_union_.MaxIndex()]):_union_size_[_union_.MaxIndex()]
         ; if not a union or a union + structure then offset must be moved (when structure offset will be reset below
         If (!_union_.MaxIndex()||_struct_[_struct_.MaxIndex()])
           _offset_+=this[" " _ArrName_]*sizeof(_defobj_?_defobj_:%_ArrType_%) ; move offset
           ;Continue
           
       } else {
-        If (A_PtrSize=8 && (_IsPtr_ || _Struct.HasKey(_ArrType_)))
+        If ((_IsPtr_ || _Struct.HasKey(_ArrType_)))
 			_offset_+=Mod(_offset_,(_IsPtr_?A_PtrSize:_Struct[_ArrType_]))=0
                       ?0:(_IsPtr_?A_PtrSize:_Struct[_ArrType_])-Mod(_offset_,(_IsPtr_?A_PtrSize
                       :_Struct[_ArrType_]))
@@ -277,6 +282,8 @@ Class _Struct {
         ,_total_union_size_ := _union_size_[_union_.MaxIndex()]>_total_union_size_?_union_size_[_union_.MaxIndex()]:_total_union_size_
         _union_._Remove(),_struct_._Remove(),_union_size_._Remove(),_LF_BKP_:=SubStr(_LF_BKP_,1,StrLen(_LF_BKP_)-1) ; remove latest items
         If !_union_.MaxIndex(){ ; leaving top union, add offset
+					if Mod(_total_union_size_,_align_total_.1)
+						_total_union_size_ += _align_total_.1-Mod(_total_union_size_,_align_total_.1)
           _offset_+=_total_union_size_,_total_union_size_:=0
         }
       }
@@ -285,9 +292,14 @@ Class _Struct {
     If (IsObject(_init_)||IsObject(_pointer_)){ ; Initialization of structures members, e.g. _Struct(_RECT,{left:10,right:20})
       for _key_,_value_ in IsObject(_init_)?_init_:_pointer_
       {
-        If !this["`r" _key_] ; It is not a pointer, assign value
-          this[_key_] := _value_
-        else if (_value_<>"") ; It is not empty
+        If !this["`r" _key_]{ ; It is not a pointer, assign value
+          If InStr(",LPSTR,LPCSTR,LPTSTR,LPCTSTR,LPWSTR,LPCWSTR,","," this["`t" _key_] ",")
+            this.Alloc(_key_,StrLen(_value_)*(InStr(".LPWSTR,LPCWSTR,","," this["`t"] ",")||(InStr(",LPTSTR,LPCTSTR,","," this["`t" _key_] ",")&&A_IsUnicode)?2:1))
+          if InStr(",LPSTR,LPCSTR,LPTSTR,LPCTSTR,LPWSTR,LPCWSTR,CHAR,TCHAR,WCHAR,","," this["`t" _key_] ",")
+            this[_key_]:=_value_
+          else 
+            this[_key_] := _value_
+        }else if (_value_<>"") ; It is not empty
           if _value_ is integer ; It is a new pointer
             this[_key_][""]:=_value_
       }
