@@ -94,10 +94,10 @@ Loop 4 {
 	
 	; Build the Tab-Row as Row of icons (active tab should have a "pressed" icon)
 	if (A_Index == 1) {
-		Gui, %A_Index%:Add, Picture, %pos_TAB1% E0x200 gToogleTab vTab1, %icoTab1%
+		Gui, %A_Index%:Add, Picture, %pos_TAB1% E0x200 gToogleTab HwndhwTab%A_index% vTab1, %icoTab1%
 	}
 	else {
-		Gui, %A_Index%:Add, Picture, %pos_TAB1% 0x800000 gToogleTab vTab1, %icoTab1%
+		Gui, %A_Index%:Add, Picture, %pos_TAB1% 0x800000 gToogleTab HwndhwTab%A_index% vTab1, %icoTab1%
 	}
 	if (A_Index == 2) {
 		Gui, %A_Index%:Add, Picture, %pos_TAB2% E0x200 gToogleTab vTab2, %icoTab2%
@@ -118,30 +118,33 @@ Loop 4 {
 	else {
 		Gui, %A_Index%:Add, Picture, %pos_TAB4% 0x800000 gToogleTab vTab4, %icoTab4%
 	}
+	TT.Add(hwTab1,"Move/Resize active window","",1)
 }
 
 ; Contents of Tab1
 tabTmp := 1
-Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% vDot,  %A_ScriptDir%\res\information-frame.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% v7,    %A_ScriptDir%\res\arrow-135.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% v4,    %A_ScriptDir%\res\arrow-180.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% v1,    %A_ScriptDir%\res\arrow-225.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% v8,    %A_ScriptDir%\res\arrow-090.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% v5,    %A_ScriptDir%\res\dot.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% v2,    %A_ScriptDir%\res\arrow-270.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% v9,    %A_ScriptDir%\res\arrow-045.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% v6,    %A_ScriptDir%\res\arrow-000.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% v3,    %A_ScriptDir%\res\arrow-315.ico
-TT.Add("Static5","Info","",%tabTmp%)
-TT.Add("Static6","Move to nordwest","",%tabTmp%)
-TT.Add("Static7","Move to west","",%tabTmp%)
-TT.Add("Static8","Move to southwest","",%tabTmp%)
-TT.Add("Static9","Move to north","",%tabTmp%)
-TT.Add("Static10","Move to center","",%tabTmp%)
-TT.Add("Static11","Move to south","",%tabTmp%)
-TT.Add("Static12","Move to northeast","",%tabTmp%)
-TT.Add("Static13","Move to east","",%tabTmp%)
-TT.Add("Static14","Move to southeast","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Dot vDot,  %A_ScriptDir%\res\information-frame.ico
+TT.Add(hwTab%tabTmp%_Dot,"Info","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_7   v7,    %A_ScriptDir%\res\arrow-135.ico
+TT.Add(hwTab%tabTmp%_7,"Move active window to nordwest","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_4   v4,    %A_ScriptDir%\res\arrow-180.ico
+TT.Add(hwTab%tabTmp%_4,"Move active window to west","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_1   v1,    %A_ScriptDir%\res\arrow-225.ico
+TT.Add(hwTab%tabTmp%_1,"Move active window to southwest","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_8   v8,    %A_ScriptDir%\res\arrow-090.ico
+TT.Add(hwTab%tabTmp%_8,"Move active window to north","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_5   v5,    %A_ScriptDir%\res\dot.ico
+TT.Add(hwTab%tabTmp%_5,"Move active window to center","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_2   v2,    %A_ScriptDir%\res\arrow-270.ico
+TT.Add(hwTab%tabTmp%_2,"Move active window to south","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_9   v9,    %A_ScriptDir%\res\arrow-045.ico
+TT.Add(hwTab%tabTmp%_9,"Move active window to northeast","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_6   v6,    %A_ScriptDir%\res\arrow-000.ico
+TT.Add(hwTab%tabTmp%_6,"Move active window to east","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_3   v3,    %A_ScriptDir%\res\arrow-315.ico
+TT.Add(hwTab%tabTmp%_3,"Move active window to southeast","",%tabTmp%)
+
+
 Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
 Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                %A_ScriptDir%\res\arrow-circle.ico
 TT.Add("Static15","Not yet implemented","",%tabTmp%)
