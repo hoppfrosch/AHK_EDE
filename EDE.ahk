@@ -100,80 +100,86 @@ Loop 4 {
 		Gui, %A_Index%:Add, Picture, %pos_TAB1% 0x800000 gToogleTab HwndhwTab%A_index% vTab1, %icoTab1%
 	}
 	if (A_Index == 2) {
-		Gui, %A_Index%:Add, Picture, %pos_TAB2% E0x200 gToogleTab vTab2, %icoTab2%
+		Gui, %A_Index%:Add, Picture, %pos_TAB2% E0x200 gToogleTab HwndhwTab%A_index% vTab2, %icoTab2%
 	}
 	else {
-		Gui, %A_Index%:Add, Picture, %pos_TAB2% 0x800000 gToogleTab vTab2, %icoTab2%
+		Gui, %A_Index%:Add, Picture, %pos_TAB2% 0x800000 gToogleTab HwndhwTab%A_index% vTab2, %icoTab2%
 	}
 	if (A_Index == 3) {
-		Gui, %A_Index%:Add, Picture, %pos_TAB3% E0x200 gToogleTab vTab3, %icoTab3%
+		Gui, %A_Index%:Add, Picture, %pos_TAB3% E0x200 gToogleTab HwndhwTab%A_index% vTab3, %icoTab3%
 	}
 	else {
-		Gui, %A_Index%:Add, Picture, %pos_TAB3% 0x800000 gToogleTab vTab3, %icoTab3%
+		Gui, %A_Index%:Add, Picture, %pos_TAB3% 0x800000 gToogleTab HwndhwTab%A_index% vTab3, %icoTab3%
 	}
 	
 	if (A_Index == 4) {
-		Gui, %A_Index%:Add, Picture, %pos_TAB4% E0x200 gToogleTab vTab4, %icoTab4%
+		Gui, %A_Index%:Add, Picture, %pos_TAB4% E0x200 gToogleTab HwndhwTab%A_index% vTab4, %icoTab4%
 	}
 	else {
-		Gui, %A_Index%:Add, Picture, %pos_TAB4% 0x800000 gToogleTab vTab4, %icoTab4%
+		Gui, %A_Index%:Add, Picture, %pos_TAB4% 0x800000 gToogleTab HwndhwTab%A_index% vTab4, %icoTab4%
 	}
 	TT.Add(hwTab1,"Move/Resize active window","",1)
+	TT.Add(hwTab2,"Multi Monitor actions","",1)
+	TT.Add(hwTab3,"","",1)
+	TT.Add(hwTab4,"Misc","",1)
+	
 }
 
 ; Contents of Tab1
 tabTmp := 1
-Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Dot vDot,  %A_ScriptDir%\res\information-frame.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Dot   vDot, %A_ScriptDir%\res\information-frame.ico
 TT.Add(hwTab%tabTmp%_Dot,"Info","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_7   v7,    %A_ScriptDir%\res\arrow-135.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_7%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_7       v7,  %A_ScriptDir%\res\arrow-135.ico
 TT.Add(hwTab%tabTmp%_7,"Move active window to nordwest","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_4   v4,    %A_ScriptDir%\res\arrow-180.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_4%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_4       v4,  %A_ScriptDir%\res\arrow-180.ico
 TT.Add(hwTab%tabTmp%_4,"Move active window to west","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_1   v1,    %A_ScriptDir%\res\arrow-225.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_1       v1,  %A_ScriptDir%\res\arrow-225.ico
 TT.Add(hwTab%tabTmp%_1,"Move active window to southwest","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_8   v8,    %A_ScriptDir%\res\arrow-090.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_8%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_8       v8,  %A_ScriptDir%\res\arrow-090.ico
 TT.Add(hwTab%tabTmp%_8,"Move active window to north","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_5   v5,    %A_ScriptDir%\res\dot.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_5%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_5       v5,  %A_ScriptDir%\res\dot.ico
 TT.Add(hwTab%tabTmp%_5,"Move active window to center","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_2   v2,    %A_ScriptDir%\res\arrow-270.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_2       v2, %A_ScriptDir%\res\arrow-270.ico
 TT.Add(hwTab%tabTmp%_2,"Move active window to south","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_9   v9,    %A_ScriptDir%\res\arrow-045.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_9%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_9       v9, %A_ScriptDir%\res\arrow-045.ico
 TT.Add(hwTab%tabTmp%_9,"Move active window to northeast","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_6   v6,    %A_ScriptDir%\res\arrow-000.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_6%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_6       v6, %A_ScriptDir%\res\arrow-000.ico
 TT.Add(hwTab%tabTmp%_6,"Move active window to east","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_3   v3,    %A_ScriptDir%\res\arrow-315.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_3%     0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_3       v3, %A_ScriptDir%\res\arrow-315.ico
 TT.Add(hwTab%tabTmp%_3,"Move active window to southeast","",%tabTmp%)
 
 
-Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI          v0, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI,                %A_ScriptDir%\res\arrow-circle.ico
-TT.Add("Static15","Not yet implemented","",%tabTmp%)
-TT.Add("Static16","Not yet implemented","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-out.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% vSub,  %A_ScriptDir%\res\arrow-in.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% vMult, %A_ScriptDir%\res\Cross.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% vDiv,  %A_ScriptDir%\res\Pin.ico
-TT.Add("Static17","Maximize","",%tabTmp%)
-TT.Add("Static18","Maximize","",%tabTmp%)
-TT.Add("Static19","Minimize","",%tabTmp%)
-TT.Add("Static20","Kill","",%tabTmp%)
-TT.Add("Static21","Toggle AlwaysOnTop","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% vEnter, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%,       %A_ScriptDir%\res\arrow-resize-090.ico
-TT.Add("Static22","Toggle RollUp","",%tabTmp%)
-TT.Add("Static23","Toggle RollUp","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_0%     0x800000 gNYI HwndhwTab%tabTmp%_0                v0, 
+TT.Add(hwTab%tabTmp%_0,"Not yet implemented","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_03%             gNYI                                      , %A_ScriptDir%\res\arrow-circle.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Add   vAdd, 
+TT.Add(hwTab%tabTmp%_Add,"Maximize","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%                             , %A_ScriptDir%\res\arrow-out.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Sub   vSub, %A_ScriptDir%\res\arrow-in.ico
+TT.Add(hwTab%tabTmp%_Sub,"Minimize","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_MULT%  0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Mult vMult, %A_ScriptDir%\res\Cross.ico
+TT.Add(hwTab%tabTmp%_Mult,"Kill","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_DIV%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Div   vDiv, %A_ScriptDir%\res\Pin.ico
+TT.Add(hwTab%tabTmp%_Div, "Toggle AlwaysOnTop","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter, 
+TT.Add(hwTab%tabTmp%_Ent, "Toggle RollUp","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             , %A_ScriptDir%\res\arrow-resize-090.ico
 
 ; Contents of tab 2
 tabTmp :=  2
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% vAdd, 
-Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%,       %A_ScriptDir%\res\monitor--arrow.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Add   vAdd,
+TT.Add(hwTab%tabTmp%_Add,"Move to next screen","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\monitor--arrow.ico
 
 ; Contents of tab 4
 tabTmp := 4
-Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% vSub, %A_ScriptDir%\res\information-white.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% v1,   %A_ScriptDir%\res\puzzle--pencil.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% v2,   %A_ScriptDir%\res\puzzle--exclamation.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Sub    vSub, %A_ScriptDir%\res\information-white.ico
+TT.Add(hwTab%tabTmp%_Sub,"Info on active window","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_1%    0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_1       v1, %A_ScriptDir%\res\puzzle--pencil.ico
+TT.Add(hwTab%tabTmp%_1,"Not yet implemented","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_2%    0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_2       v2, %A_ScriptDir%\res\puzzle--exclamation.ico
+TT.Add(hwTab%tabTmp%_2,"Debug - Dump main data structure","",%tabTmp%)
+
 
 Menu, Tray, Icon, %A_ScriptDir%\res\EDE.ico
 
