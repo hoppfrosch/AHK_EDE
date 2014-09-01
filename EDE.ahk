@@ -43,6 +43,10 @@ LoadConfig()
 val := gEDE.config.RepeatedKeypress.Timeout.text
 SetTimer, ExpireReprisedKeypress, %val%
 
+val := gEDE.config.AutoHide.Timeout.text
+if (val >= 0 )
+	SetTimer, ExpireAutoHide, %val%
+
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Building up the GUI
 
@@ -219,6 +223,8 @@ $ESC:: ; <--- Hide
 	OutputDebug % ">[EDE] Activating Tab <" Tab ">"
 	ShowGui(Tab, 1)
 	OutputDebug % "<[EDE] " A_ThisHotkey " done"
+	if (gEDE.config.AutoHide.Timeout.text > 0)
+		SetTimer, ExpireAutoHide
 	return
 	
 ; Numpad-Keypress on a certain tab
@@ -280,6 +286,15 @@ ExpireReprisedKeypress:
 		gEDE.State.Key.Reprise := 0
 		gEDE.State.Key.Previous := ""
 		SetTimer, ExpireReprisedKeypress
+	}
+	return
+
+ExpireAutoHide: ;Hide GUI automatically when losing focus
+	If (gEde.State.EDEActive == 1) {
+		Global gEDE
+		TabId := activeTabId()
+		Gui, %TabId%:hide
+		gEde.State.EDEActive := 0
 	}
 	return
    

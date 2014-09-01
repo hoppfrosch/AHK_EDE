@@ -4,6 +4,11 @@
 		<RepeatedKeypress>
 			<Timeout unit="ms">5000</Timeout>
 		</RepeatedKeypress>
+		<AutoHide> 
+			<!-- #12: AutoHide GUI after timeout -->
+			<!-- If Node <AutoHide> is missing or timeout value is less than 0, AutoHide is disabled -->
+			<Timeout unit="ms">5000</Timeout>
+		</AutoHide>
 	</General>
 	<Align>
 		<!-- 
