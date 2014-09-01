@@ -1,6 +1,6 @@
 /*! TheGood
     TaskDialog() - Launches a Task Dialog (Windows Vista and later only)
-    http://www.autohotkey.com/forum/viewtopic.php?t=58952
+    http://www.autohotkey.com/board/topic/54555-taskdialog-stdlib-compatible/
     Last updated: August 22nd, 2010
     ________________________________________________________________________________________________________________________
     Parameter:      Description:
