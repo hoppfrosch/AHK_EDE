@@ -40,12 +40,19 @@ gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 ;------------------- Misc task for preparation
 LoadConfig()
 
+; Setup various timers
 val := gEDE.config.RepeatedKeypress.Timeout.text
-SetTimer, ExpireReprisedKeypress, %val%
+SetTimer, lExpireReprisedKeypress, %val%
 
+; Timer to AutoHide-EDE GUI
 val := gEDE.config.AutoHide.Timeout.text
 if (val >= 0 )
-	SetTimer, ExpireAutoHide, %val%
+	SetTimer, lExpireAutoHide, %val%
+
+; Timer to check for newly created windows
+val = 200
+SetTimer, lCheckWinExistsTrigger, %CheckPeriod%
+
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Building up the GUI
@@ -224,7 +231,7 @@ $ESC:: ; <--- Hide
 	ShowGui(Tab, 1)
 	OutputDebug % "<[EDE] " A_ThisHotkey " done"
 	if (gEDE.config.AutoHide.Timeout.text > 0)
-		SetTimer, ExpireAutoHide
+		SetTimer, lExpireAutoHide
 	return
 	
 ; Numpad-Keypress on a certain tab
@@ -279,23 +286,39 @@ NYI:
     NotYetImplemented()
     return
 	
-ExpireReprisedKeypress:
+lExpireReprisedKeypress:
 	if (gEDE.State.waitForReprisedKeyPress == 1) {
 		OutputDebug % ">>>>>>>>>>>>>>>>Reprised Keypress expired<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 		gEDE.State.waitForReprisedKeyPress := 0
 		gEDE.State.Key.Reprise := 0
 		gEDE.State.Key.Previous := ""
-		SetTimer, ExpireReprisedKeypress
+		SetTimer, lExpireReprisedKeypress
 	}
 	return
 
-ExpireAutoHide: ;Hide GUI automatically when losing focus
+lExpireAutoHide: ;Hide GUI automatically when losing focus
 	If (gEde.State.EDEActive == 1) {
 		Global gEDE
 		TabId := activeTabId()
 		Gui, %TabId%:hide
 		gEde.State.EDEActive := 0
 	}
+	return
+
+lCheckWinExistsTrigger: ; Check for new windows and at them to administrative data structure
+    ; Register all existing windows within EDE 
+    O_DHW := A_DetectHiddenWindows, O_BL := A_BatchLines ;Save original states
+	DetectHiddenWindows, % "off" 
+	SetBatchLines, -1
+	WinGet, all, list ;get all hwnd
+	Loop, %all% {
+		hwnd := all%A_Index%
+		if (gEDE.State.WinList[hwnd] == "" ) {
+			gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
+		}
+	}
+	DetectHiddenWindows, %O_DHW% ;back to original state
+	SetBatchLines, %O_BL% ;back to original state
 	return
    
 ; ----------------------------------------------------------------------------
@@ -364,7 +387,7 @@ Tab1(GuiControl) {
 		OutputDebug % "*** Key "gEDE.State.Key.Current "- Reprise:" gEDE.State.Key.Reprise ":" factors.x "-" factors.y "-" factors.width "-" factors.height
 		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.width, factors.height)
 		gEDE.State.waitForReprisedKeyPress := 1
-		SetTimer, ExpireReprisedKeypress
+		SetTimer, lExpireReprisedKeypress
 	}
 	else if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
