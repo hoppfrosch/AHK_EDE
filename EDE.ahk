@@ -1,4 +1,4 @@
-#Persistent
+﻿#Persistent
 ;#Warn All
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
@@ -32,7 +32,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.7.2"
+gEDE.Info.App.Version := "0.7.3"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -314,7 +314,7 @@ lCheckWinExistsTrigger: ; Check for new windows and at them to administrative da
 	Loop, %all% {
 		hwnd := all%A_Index%
 		if (gEDE.State.WinList[hwnd] == "" ) {
-			gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
+			gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 0)
 		}
 	}
 	DetectHiddenWindows, %O_DHW% ;back to original state
