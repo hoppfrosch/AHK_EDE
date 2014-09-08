@@ -6,6 +6,7 @@
 #include <TaskDialog>
 #include <TT>
 #include <WindowHandler>
+#include <EDE\MultiMonitorEnv>
 #Include <EDE_XMLConfig>
 
 SetWorkingDir %A_ScriptDir%  
