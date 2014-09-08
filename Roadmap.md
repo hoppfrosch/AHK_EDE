@@ -22,15 +22,24 @@
 
 
 
-## Class MouseTools ##
+## Class Mouse ##
 Class to handle several requests/actions concerning mouse
 
 - [#10](https://github.com/hoppfrosch/AHK_EDE/issues/10) - [N] - Initial
-- [N] `Locate()` -> see `MouseLocator()` in *WindowPadX/WPXA.ahk*
-- [N] `isOnMon()` - returns the monID the window is on
+- [#10](https://github.com/hoppfrosch/AHK_EDE/issues/10) - [N] `locate()` -> see `MouseLocator()` in *WindowPadX/WPXA.ahk*
+- [N] Property `monitorID()` - monitorID - Property with getter/setter
 - [N] `clip()` -> see `wp_ClipCursor()` in *WindowPadX/WPXA.ahk*
 - [N] `clipCursorToMonitor()` - Clips (Restricts) mouse to given monitor (see *WindowPadX/WPXA.ahk*)
-  
+- Rename class from MouseTools to Mouse
+- [N] `pos` - mouse position - Property with getter/setter (based on class EDE\Point)
+- [N] Property `showTrace` to show mouse trace during movement
+- [N] `isOverHwnd()` - to determine the HWND of window the 
+
+## Class Point ##
+New class to handle 2D points
+
+- [#15](https://github.com/hoppfrosch/AHK_EDE/issues/15) - [N] - Initial
+
 ## Class WindowStack ##
 Class to handle relation between several windows
 
@@ -52,6 +61,12 @@ Class to handle relation between several windows
 
 ## General ##
 
+- [E] - move all existing lib-moduls into subfolder EDE
+   - Rectangle.ahk
+   - WindowHandler.ahk.ahk
+   - _WindowHandlerEvent.ahk
+   - MultiMonitorEnv.ahk
+   - Mouse.ahk
 - [E] - Better documentation process
 - [N] - Publish documentation of classes and EDE on github
 
