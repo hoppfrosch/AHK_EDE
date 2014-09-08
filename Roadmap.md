@@ -36,9 +36,15 @@ Class to handle several requests/actions concerning mouse
 - [N] `isOverHwnd()` - to determine the HWND of window the 
 
 ## Class Point ##
-New class to handle 2D points
+Class to handle 2D points
 
-- [#15](https://github.com/hoppfrosch/AHK_EDE/issues/15) - [N] - Initial
+- <strike>**V0.7.4 ** - [#15](https://github.com/hoppfrosch/AHK_EDE/issues/15) - [N] - Initial</strike>
+
+
+## Class Rectangle ##
+Class to handle rectangles
+
+- Internally use new class Point
 
 ## Class WindowStack ##
 Class to handle relation between several windows
@@ -54,9 +60,9 @@ Class to handle relation between several windows
   - [#7](https://github.com/hoppfrosch/AHK_EDE/issues/7): `MoveToNextScreen`
 - [N] - Provide Tray-Tooltips on actions
 - [N] - Restore wondow properties on window creation
-- **V 0.7.2** - <strike>[N] Checking for newly created windows and register new Windows within AHK-EDE</strike>
-- **V 0.7.1** - <strike>[#12](https://github.com/hoppfrosch/AHK_EDE/issues/12) - [N] - Autohide EDE-GUI after timeout</strike> 
-- **V 0.7.0** - <strike>[#5](https://github.com/hoppfrosch/AHK_EDE/issues/5) - [N] - Tooltips on mouseover EDE-buttons</strike> - 
+- <strike>[**V 0.7.2** - N] Checking for newly created windows and register new Windows within AHK-EDE</strike>
+- <strike>[**V 0.7.1** - [#12](https://github.com/hoppfrosch/AHK_EDE/issues/12) - [N] - Autohide EDE-GUI after timeout</strike> 
+- <strike>[**V 0.7.0** - [#5](https://github.com/hoppfrosch/AHK_EDE/issues/5) - [N] - Tooltips on mouseover EDE-buttons</strike> - 
 - <strike>[#6](https://github.com/hoppfrosch/AHK_EDE/issues/6) - [E] - Allow tab-switching using Numpad-1 .. 4</strike>
 
 ## General ##
