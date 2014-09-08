@@ -71,8 +71,8 @@ Class to handle relation between several windows
    - <strike>Rectangle.ahk</strike>
    - WindowHandler.ahk.ahk
    - _WindowHandlerEvent.ahk
-   - MultiMonitorEnv.ahk
-   - Mouse.ahk
+   - <strike>MultiMonitorEnv.ahk</strike>
+   - <strike>Mouse.ahk</strike>
 - [E] - Better documentation process
 - [N] - Publish documentation of classes and EDE on github
 
