@@ -5,8 +5,8 @@
 
 #include <TaskDialog>
 #include <TT>
-#include <WindowHandler>
-#Include <EDE_XMLConfig>
+#include <EDE>
+#include <EDE\Mouse>
 
 SetWorkingDir %A_ScriptDir%  
 
@@ -32,7 +32,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.7.4"
+gEDE.Info.App.Version := "0.8.0"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -181,6 +181,9 @@ tabTmp :=  2
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Add   vAdd,
 TT.Add(hwTab%tabTmp%_Add,"Move to next screen","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\monitor--arrow.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter,
+TT.Add(hwTab%tabTmp%_Ent,"Locate Mousepointer","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\marker.ico
 
 ; Contents of tab 4
 tabTmp := 4
@@ -212,7 +215,12 @@ $ESC:: ; <--- Hide
 	}
 	return 
 	
+#NumpadDot:: ; <--- MouseLocator
+	obj := new Mouse()
+	obj.locate()
+	return
 
+	
 #Numpad1:: ; <--- Activate/toggles EDE-Tab 1
 #Numpad2:: ; <--- Activate/toggles EDE-Tab 2
 #Numpad3:: ; <--- Activate/toggles EDE-Tab 3
