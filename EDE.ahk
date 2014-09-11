@@ -3,10 +3,13 @@
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
 
-#include <TaskDialog>
-#include <TT>
-#include <EDE>
-#include <EDE\Mouse>
+#include lib\EDE\Point.ahk
+#include lib\EDE\Rectangle.ahk
+#include lib\EDE\Mouse.ahk
+#include lib\EDE\MultiMonitorEnv.ahk
+#include lib\EDE\WindowHandler.ahk
+#include lib\TaskDialog.ahk
+#include lib\TT\TT.ahk
 
 SetWorkingDir %A_ScriptDir%  
 
