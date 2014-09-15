@@ -3,13 +3,19 @@
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
 
-#include lib\EDE\Point.ahk
-#include lib\EDE\Rectangle.ahk
-#include lib\EDE\Mouse.ahk
-#include lib\EDE\MultiMonitorEnv.ahk
-#include lib\EDE\WindowHandler.ahk
-#include lib\TaskDialog.ahk
-#include lib\TT\TT.ahk
+#include %A_ScriptDir%
+#include lib\EDE
+#include Point.ahk
+#include Rectangle.ahk
+#include Mouse.ahk
+#include MultiMonitorEnv.ahk
+#include WindowHandler.ahk
+#include %A_ScriptDir%
+#include lib
+#include TaskDialog.ahk
+#include %A_ScriptDir%
+#include lib\TT
+#include TT.ahk
 
 SetWorkingDir %A_ScriptDir%  
 
@@ -217,13 +223,13 @@ $ESC:: ; <--- Hide
 		Send, {Esc}
 	}
 	return 
-	
+
 #NumpadDot:: ; <--- MouseLocator
 	obj := new Mouse()
 	obj.locate()
 	return
 
-	
+
 #Numpad1:: ; <--- Activate/toggles EDE-Tab 1
 #Numpad2:: ; <--- Activate/toggles EDE-Tab 2
 #Numpad3:: ; <--- Activate/toggles EDE-Tab 3
@@ -244,7 +250,7 @@ $ESC:: ; <--- Hide
 	if (gEDE.config.AutoHide.Timeout.text > 0)
 		SetTimer, lExpireAutoHide
 	return
-	
+
 ; Numpad-Keypress on a certain tab
 #If (gEde.State.EDEActive == 1)
 $NumLock:: ; <--- Action on the current activ EDE-Tab
@@ -264,18 +270,18 @@ $Numpad6:: ; <--- Action on the current activ EDE-Tab
 $Numpad7:: ; <--- Action on the current activ EDE-Tab
 $Numpad8:: ; <--- Action on the current activ EDE-Tab
 $Numpad9:: ; <--- Action on the current activ EDE-Tab
-	id := activeTabId()
-	Tab%id%(SubStr(A_ThisHotkey,8)) ; 
-	Return
+id := activeTabId()
+Tab%id%(SubStr(A_ThisHotkey,8)) ; 
+Return
 
 ; ----------------------------------------------------------------------------
 ; --- Labels -----------------------------------------------------------------
 ToogleTab:
 	ShowGui(A_GuiControl)
 	return
-	
+
 GuiClose: 
-   ExitApp
+	ExitApp
 
 lTab1:
 	Tab1(A_GuiControl)
@@ -284,19 +290,19 @@ lTab1:
 lTab2:
 	Tab2(A_GuiControl)
 	return
-	
+
 lTab3:
 	Tab3(A_GuiControl)
 	return
-	
+
 lTab4:
 	Tab4(A_GuiControl)
 	return
-	
+
 NYI:
-    NotYetImplemented()
-    return
-	
+	NotYetImplemented()
+	return
+
 lExpireReprisedKeypress:
 	if (gEDE.State.waitForReprisedKeyPress == 1) {
 		OutputDebug % ">>>>>>>>>>>>>>>>Reprised Keypress expired<<<<<<<<<<<<<<<<<<<<<<<<<<<"
@@ -317,8 +323,8 @@ lExpireAutoHide: ;Hide GUI automatically when losing focus
 	return
 
 lCheckWinExistsTrigger: ; Check for new windows and at them to administrative data structure
-    ; Register all existing windows within EDE 
-    O_DHW := A_DetectHiddenWindows, O_BL := A_BatchLines ;Save original states
+	; Register all existing windows within EDE 
+	O_DHW := A_DetectHiddenWindows, O_BL := A_BatchLines ;Save original states
 	DetectHiddenWindows, % "off" 
 	SetBatchLines, -1
 	WinGet, all, list ;get all hwnd
@@ -331,7 +337,7 @@ lCheckWinExistsTrigger: ; Check for new windows and at them to administrative da
 	DetectHiddenWindows, %O_DHW% ;back to original state
 	SetBatchLines, %O_BL% ;back to original state
 	return
-   
+
 ; ----------------------------------------------------------------------------
 ; --- Functions --------------------------------------------------------------
 ShowGui(tab := "Tab1", updatePos = 0) {
@@ -367,8 +373,8 @@ HideGui() {
 }
 
 NotYetImplemented() {
-    Global gEDE
-    TaskDialog(0, gEDE.Info.App.NameVersion "|Not yet implemented|A_Gui: <" A_Gui ">`nA_GuiControl: <" A_GuiControl ">`nA_GuiEvent: <" A_GuiEvent ">`nA_EventInfo: <" A_EventInfo ">", "", 1, "WARNING")
+	Global gEDE
+	TaskDialog(0, gEDE.Info.App.NameVersion "|Not yet implemented|A_Gui: <" A_Gui ">`nA_GuiControl: <" A_GuiControl ">`nA_GuiEvent: <" A_GuiEvent ">`nA_EventInfo: <" A_EventInfo ">", "", 1, "WARNING")
 }
 
 Tab1(GuiControl) {
@@ -424,7 +430,7 @@ Tab1(GuiControl) {
 		HideGUI()
 		NotYetImplemented()
 	}
-    return
+	return
 }
 
 Tab2(GuiControl) {
@@ -432,12 +438,12 @@ Tab2(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
-
-	 if(gEDE.State.Key.Current == "Add") {
+	
+	if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
 		obj := new MultiMonitorEnv()
 		newID := gEDE.State.WinList[0].monitorID + 1
-
+		
 		; Wrap on last monitor
 		if (newID> obj.monCount()) {
 			newID := 1
@@ -448,7 +454,7 @@ Tab2(GuiControl) {
    		NotYetImplemented()
 		HideGUI()
 	}
-    return
+	return
 }
 
 Tab3(GuiControl) {
@@ -460,7 +466,7 @@ Tab3(GuiControl) {
 	
 	NotYetImplemented()
 	HideGUI()
-    return
+	return
 }
 
 Tab4(GuiControl) {
@@ -483,9 +489,9 @@ Tab4(GuiControl) {
 	}
 	else {
 		HideGUI()
-    	NotYetImplemented()
+		NotYetImplemented()
 	}
-    return
+	return
 }
 
 activeTabID() {
