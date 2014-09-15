@@ -1,17 +1,17 @@
-#NoEnv
+﻿#NoEnv
 
 #Include %A_ScriptDir%\Yunit\Yunit.ahk
 #Include %A_ScriptDir%\Yunit\Window.ahk
 #Include %A_ScriptDir%\Yunit\StdOut.ahk
-#include <EDE\MultiMonitorEnv>
-#include <EDE\Rectangle>
+#include lib\EDE\MultiMonitorEnv.ahk
+#include lib\EDE\Rectangle.ahk
 
 #Warn All
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
 
 
-ReferenceVersion := "0.1.3"
+ReferenceVersion := "0.1.5"
 debug := 1
 
 Yunit.Use(YunitStdOut, YunitWindow).Test(MultiMonitorEnvTestSuite)
@@ -21,8 +21,7 @@ ExitApp
 
 class MultiMonitorEnvTestSuite2
 {
-	Begin()
-    {
+	Begin() {
 		Global debug
 		this.obj := new MultiMonitorEnv(debug)
 		this.monCount := 2
@@ -35,9 +34,25 @@ class MultiMonitorEnvTestSuite2
 		this.monvirtHeight := this.mon2Height
     }
 
-	    		
-	End()
-    {
+    CoordTrans() {
+		x := this.obj.monCoordAbsToRel(10,10)
+		Yunit.assert(x.monID == 1)
+		Yunit.assert(x.x == 10)
+		Yunit.assert(x.y == 10)
+    	x := this.obj.monCoordAbsToRel(1930,10)
+		Yunit.assert(x.monID == 2)
+		Yunit.assert(x.x == 10)
+		Yunit.assert(x.y == 10)
+		y := this.obj.monCoordRelToAbs(1, 10, 10)
+		Yunit.assert(y.x == 10)
+		Yunit.assert(y.y == 10)
+		y := this.obj.monCoordRelToAbs(2, 10, 10)
+		Yunit.assert(y.x == 1930)
+		Yunit.assert(y.y == 10)
+    	return
+    }
+
+	End()  {
         this.remove("obj")
 		this.obj := 
     }
@@ -45,8 +60,7 @@ class MultiMonitorEnvTestSuite2
 
 class MultiMonitorEnvTestSuite
 {
-	Begin()
-    {
+	Begin() {
 		Global debug
 		this.obj := new MultiMonitorEnv(debug)
 		this.monCount := 2
@@ -60,8 +74,7 @@ class MultiMonitorEnvTestSuite
     }
 	
 	
-    Version()
-    {
+    Version() {
 		Global ReferenceVersion
 		Yunit.assert(this.obj._version == ReferenceVersion)
     }
@@ -77,6 +90,24 @@ class MultiMonitorEnvTestSuite
 		Yunit.assert(rectMon2.h == this.monvirtHeight)
 	}
 
+    CoordTrans() {
+		x := this.obj.monCoordAbsToRel(10,10)
+		Yunit.assert(x.monID == 1)
+		Yunit.assert(x.x == 10)
+		Yunit.assert(x.y == 10)
+    	x := this.obj.monCoordAbsToRel(1930,10)
+		Yunit.assert(x.monID == 2)
+		Yunit.assert(x.x == 10)
+		Yunit.assert(x.y == 10)
+		y := this.obj.monCoordRelToAbs(1, 10, 10)
+		Yunit.assert(y.x == 10)
+		Yunit.assert(y.y == 10)
+		y := this.obj.monCoordRelToAbs(2, 10, 10)
+		Yunit.assert(y.x == 1930)
+		Yunit.assert(y.y == 10)
+    	return
+    }
+	
 	MonCount() {
 		Yunit.assert(this.obj.monCount == this.monCount)
 	}
@@ -149,12 +180,15 @@ class MultiMonitorEnvTestSuite
 		Yunit.assert(monPrv == this.monCount)
 	}
 
-	    		
-	End()
-    {
+	MonScale() {
+		Yunit.assert(this.obj.monScaleX(1,1) == 1)
+		Yunit.assert(this.obj.monScaleY(1,1) == 1)
+		Yunit.assert(this.obj.monScaleX(2,2) == 1)
+		Yunit.assert(this.obj.monScaleY(2,2) == 1)
+	}
+		    		
+	End() {
         this.remove("obj")
 		this.obj := 
     }
 }
-
-
