@@ -41,7 +41,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.9.0"
+gEDE.Info.App.Version := "0.9.1"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -397,7 +397,7 @@ Tab1(GuiControl) {
 	
 	if (gEDE.State.Key.Current == "Dot") {
 		HideGUI()
-		TaskDialog(gEDE.State.WinList[0]._hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
+		TaskDialog(gEDE.State.WinList[0].hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
 	else if(gEDE.State.Key.Current >= "1" && gEDE.State.Key.Current <= "9") { ; Any key of Numpad1 to Numpad9 is pressed ...
 		factors := gEDE.Config.align[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
@@ -478,7 +478,7 @@ Tab4(GuiControl) {
 	
 	if (gEDE.State.Key.Current == "Sub") {
 		HideGUI()
-		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0]._hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(gEDE.State.Key.Current == "1") {
 		LoadConfig()
