@@ -41,7 +41,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.9.2"
+gEDE.Info.App.Version := "0.9.3"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -113,26 +113,26 @@ Loop 4 {
 	Gui %A_Index%:-Caption
 	
 	; Build the Tab-Row as Row of icons (active tab should have a "pressed" icon)
-	if (A_Index == 1) {
+	if (A_Index = 1) {
 		Gui, %A_Index%:Add, Picture, %pos_TAB1% E0x200 gToogleTab HwndhwTab%A_index% vTab1, %icoTab1%
 	}
 	else {
 		Gui, %A_Index%:Add, Picture, %pos_TAB1% 0x800000 gToogleTab HwndhwTab%A_index% vTab1, %icoTab1%
 	}
-	if (A_Index == 2) {
+	if (A_Index = 2) {
 		Gui, %A_Index%:Add, Picture, %pos_TAB2% E0x200 gToogleTab HwndhwTab%A_index% vTab2, %icoTab2%
 	}
 	else {
 		Gui, %A_Index%:Add, Picture, %pos_TAB2% 0x800000 gToogleTab HwndhwTab%A_index% vTab2, %icoTab2%
 	}
-	if (A_Index == 3) {
+	if (A_Index = 3) {
 		Gui, %A_Index%:Add, Picture, %pos_TAB3% E0x200 gToogleTab HwndhwTab%A_index% vTab3, %icoTab3%
 	}
 	else {
 		Gui, %A_Index%:Add, Picture, %pos_TAB3% 0x800000 gToogleTab HwndhwTab%A_index% vTab3, %icoTab3%
 	}
 	
-	if (A_Index == 4) {
+	if (A_Index = 4) {
 		Gui, %A_Index%:Add, Picture, %pos_TAB4% E0x200 gToogleTab HwndhwTab%A_index% vTab4, %icoTab4%
 	}
 	else {
@@ -215,7 +215,7 @@ $ESC:: ; <--- Hide
 	; Hide EDE-window if mouse is over EDE-GUI 
 	MouseGetPos, , , id, control
 	WinGetTitle, title, ahk_id %id%
-	if (title == "EDE") {
+	if (title = "EDE") {
 		gEDE.State.Tab.Current.hWnd := 
 		HideGUI()
 	}
@@ -237,7 +237,7 @@ $ESC:: ; <--- Hide
 	OutputDebug % ">[EDE] " A_ThisHotkey " pressed"
 	; Get current window
 	WinGet, hWnd, ID, A 
-	if (gEDE.State.WinList[hwnd] == "" ) {
+	if (gEDE.State.WinList[hwnd] = "" ) {
 		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
@@ -304,7 +304,7 @@ NYI:
 	return
 
 lExpireReprisedKeypress:
-	if (gEDE.State.waitForReprisedKeyPress == 1) {
+	if (gEDE.State.waitForReprisedKeyPress = 1) {
 		OutputDebug % ">>>>>>>>>>>>>>>>Reprised Keypress expired<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 		gEDE.State.waitForReprisedKeyPress := 0
 		gEDE.State.Key.Reprise := 0
@@ -314,7 +314,7 @@ lExpireReprisedKeypress:
 	return
 
 lExpireAutoHide: ;Hide GUI automatically when losing focus
-	If (gEde.State.EDEActive == 1) {
+	If (gEde.State.EDEActive = 1) {
 		Global gEDE
 		TabId := activeTabId()
 		Gui, %TabId%:hide
@@ -330,7 +330,7 @@ lCheckWinExistsTrigger: ; Check for new windows and at them to administrative da
 	WinGet, all, list ;get all hwnd
 	Loop, %all% {
 		hwnd := all%A_Index%
-		if (gEDE.State.WinList[hwnd] == "" ) {
+		if (gEDE.State.WinList[hwnd] = "" ) {
 			gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 0)
 		}
 	}
@@ -348,7 +348,7 @@ ShowGui(tab := "Tab1", updatePos = 0) {
 	gEDE.State.Tab.Current.Id := TabId
 	gEde.State.EDEActive := 1
 	TabId := RegExReplace(tab, "i)Tab(\d+)", "$1")
-	if (updatePos == 1) {
+	if (updatePos = 1) {
 		; GUI is shown at current mouseposition
 		CoordMode, Mouse, Screen
 		MouseGetPos, xpos, ypos 
@@ -385,7 +385,7 @@ Tab1(GuiControl) {
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
 	
 	; If a Numpad-Key is pressed repeatedly, cycle through the configuration ....
-	if (gEDE.State.Key.Previous == gEDE.State.Key.Current) {
+	if (gEDE.State.Key.Previous = gEDE.State.Key.Current) {
 		gEDE.State.Key.Reprise := gEDE.State.Key.Reprise + 1
 		if (gEDE.State.Key.Reprise > gEDE.Config.align[gEDE.State.Key.Current].cnt) {
 			gEDE.State.Key.Reprise := 1
@@ -395,7 +395,7 @@ Tab1(GuiControl) {
 		gEDE.State.Key.Reprise := 1
 	}
 	
-	if (gEDE.State.Key.Current == "Dot") {
+	if (gEDE.State.Key.Current = "Dot") {
 		HideGUI()
 		TaskDialog(gEDE.State.WinList[0].hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
