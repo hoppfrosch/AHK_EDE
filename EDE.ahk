@@ -4,18 +4,16 @@
 #SingleInstance force
 
 #include %A_ScriptDir%
-#include lib\EDE
-#include Point.ahk
-#include Rectangle.ahk
-#include Mouse.ahk
-#include MultiMonitorEnv.ahk
-#include WindowHandler.ahk
-#include %A_ScriptDir%
 #include lib
 #include TaskDialog.ahk
 #include %A_ScriptDir%
 #include lib\TT
 #include TT.ahk
+
+#include <EDE_XMLConfig>
+#include <Windy\Mousy>
+#include <Windy\Windy>
+#include <Windy\MultiMony>
 
 SetWorkingDir %A_ScriptDir%  
 
@@ -41,7 +39,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.9.4"
+gEDE.Info.App.Version := "0.10.0"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -225,7 +223,7 @@ $ESC:: ; <--- Hide
 	return 
 
 #NumpadDot:: ; <--- MouseLocator
-	obj := new Mouse()
+	obj := new Mousy()
 	obj.locate()
 	return
 
@@ -238,7 +236,7 @@ $ESC:: ; <--- Hide
 	; Get current window
 	WinGet, hWnd, ID, A 
 	if (gEDE.State.WinList[hwnd] = "" ) {
-		gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 1)
+		gEDE.State.WinList[hwnd] := new Windy(hwnd, 1)
 	}
 	; gEDE.State.WinList[0] contains always windowsHandler of currently active window
 	gEDE.State.WinList[0] := gEDE.State.WinList[hwnd]
@@ -331,7 +329,7 @@ lCheckWinExistsTrigger: ; Check for new windows and at them to administrative da
 	Loop, %all% {
 		hwnd := all%A_Index%
 		if (gEDE.State.WinList[hwnd] = "" ) {
-			gEDE.State.WinList[hwnd] := new WindowHandler(hwnd, 0)
+			gEDE.State.WinList[hwnd] := new Windy(hwnd, 0)
 		}
 	}
 	DetectHiddenWindows, %O_DHW% ;back to original state
@@ -441,14 +439,15 @@ Tab2(GuiControl) {
 	
 	if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
-		obj := new MultiMonitorEnv()
 		newID := gEDE.State.WinList[0].monitorID + 1
-		
+		OutputDebug % "Vor Move: " gEDE.State.WinList[0].monitorID
 		; Wrap on last monitor
-		if (newID> obj.monCount()) {
+		obj := new MultiMony()
+		if (newID> obj.monitorsCount()) {
 			newID := 1
 		}
 		gEDE.State.WinList[0].monitorID := newID
+		OutputDebug % "Nach Move: " gEDE.State.WinList[0].monitorID
 	}
 	else {
    		NotYetImplemented()
