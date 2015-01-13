@@ -269,7 +269,9 @@ $Numpad7:: ; <--- Action on the current activ EDE-Tab
 $Numpad8:: ; <--- Action on the current activ EDE-Tab
 $Numpad9:: ; <--- Action on the current activ EDE-Tab
 id := activeTabId()
-Tab%id%(SubStr(A_ThisHotkey,8)) ; 
+Tab%id%(SubStr(A_ThisHotkey,8)) 
+if (gEDE.config.AutoHide.Timeout.text > 0)
+	SetTimer, lExpireAutoHide
 Return
 
 ; ----------------------------------------------------------------------------
