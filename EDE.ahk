@@ -14,6 +14,7 @@
 #include <Windy\Mousy>
 #include <Windy\Windy>
 #include <Windy\MultiMony>
+#include <Windy\Mony>
 
 SetWorkingDir %A_ScriptDir%  
 
@@ -186,11 +187,11 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%               
 ; Contents of tab 2
 tabTmp :=  2
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Add   vAdd,
-TT.Add(hwTab%tabTmp%_Add,"Move to next screen","",%tabTmp%)
+TT.Add(hwTab%tabTmp%_Add,"Move active window to next screen","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\monitor--arrow.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter,
-TT.Add(hwTab%tabTmp%_Ent,"Locate Mousepointer","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\marker.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter, 
+TT.Add(hwTab%tabTmp%_Ent, "Move mouse to next screen","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             , %A_ScriptDir%\res\mouse--arrow.ico
 
 ; Contents of tab 4
 tabTmp := 4
@@ -451,6 +452,12 @@ Tab2(GuiControl) {
 		gEDE.State.WinList[0].monitorID := newID
 		OutputDebug % "Nach Move: " gEDE.State.WinList[0].monitorID
 	}
+	else if(gEDE.State.Key.Current == "Enter") {
+		obj_mouse := new Mousy()
+		currMonId := obj_mouse.monitorID
+		obj_mon := new Mony(currMonId)
+		obj_mouse.monitorID := obj_mon.idNext
+	}	
 	else {
    		NotYetImplemented()
 		HideGUI()
