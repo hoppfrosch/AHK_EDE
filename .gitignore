@@ -11,3 +11,6 @@ NCHITTEST.ahk
 backup/
 *.bak
 xx.ahk
+gotoCache/
+lib/Windy/_WindowHandlerEvent.ahk
+lib/Windy/

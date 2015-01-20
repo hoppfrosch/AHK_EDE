@@ -442,15 +442,8 @@ Tab2(GuiControl) {
 	
 	if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
-		newID := gEDE.State.WinList[0].monitorID + 1
-		OutputDebug % "Vor Move: " gEDE.State.WinList[0].monitorID
-		; Wrap on last monitor
-		obj := new MultiMony()
-		if (newID> obj.monitorsCount()) {
-			newID := 1
-		}
-		gEDE.State.WinList[0].monitorID := newID
-		OutputDebug % "Nach Move: " gEDE.State.WinList[0].monitorID
+		obj_mon := new Mony(gEDE.State.WinList[0].monitorID)
+		gEDE.State.WinList[0].monitorID := obj_mon.idNext
 	}
 	else if(gEDE.State.Key.Current == "Enter") {
 		obj_mouse := new Mousy()
