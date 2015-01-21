@@ -1,0 +1,9 @@
+site_name: EDE - Enhanced desktop experience
+
+repo_url: https://github.com/hoppfrosch/AHK_EDE/
+
+site_author: hoppfrosch
+
+theme: simplex
+
+site_dir: ..\..\..\AHK_EDE_gh-pages\
