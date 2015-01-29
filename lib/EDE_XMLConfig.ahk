@@ -5,13 +5,11 @@
 		Class to handle configuration for EDE (Parse XML configuration and offer access to configuration items)
 
 	Author: 
-		hoppfrosch (hoppfrosch@ahk4.me)
+		hoppfrosch (hoppfrosch@gmx.de)
 		
 	License: 
 		This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
 		
-	Changelog:
-		0.1.0 - [+] Initial
 */
 	
 ; ****** HINT: Documentation can be extracted to HTML using NaturalDocs ************** */
@@ -21,7 +19,7 @@
 ; ******************************************************************************************************************************************
 class EDE_XMLConfig {
 	
-	_version := "0.1.2"
+	_version := "0.2.0"
 	_debug := 0 ; _DBG_	
 	filename := ""
 	contents := object()
@@ -61,6 +59,38 @@ class EDE_XMLConfig {
 			
 	}
 	
+	parseAlignOld() {
+		if this.xml.documentElement {
+			Dirs := this.xml.getChildren("//AlignOld", "element")
+		
+			configPos := Object()
+			iDir := 0
+			for currDir in Dirs {
+				iDir++
+				this.contents.align[iDir] := object()
+				Positions := this.xml.getChildren("//AlignOld/Dir[" iDir "]", "element")
+				iPositions := 0
+				for v in Positions {
+					iPositions++
+				}
+				key := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "kp") ; getAtt() method
+				compass := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "compass") ; getAtt() method
+		
+				iPos := 0
+				for currPos in Positions {
+					oPos := Object()
+					iPos++
+					oPos.x := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "x")
+					oPos.y := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "y")
+					oPos.width := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "width")
+					oPos.height := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "height")
+					this.contents.align[iDir].pos[iPos] := oPos
+				}
+				this.contents.align[iDir].cnt := iPos
+				this.contents.align[iDir].compass := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "compass") ; getAtt() method
+			}
+		}
+	}
 	parseAlign() {
 		if this.xml.documentElement {
 			Dirs := this.xml.getChildren("//Align", "element")
@@ -69,7 +99,7 @@ class EDE_XMLConfig {
 			iDir := 0
 			for currDir in Dirs {
 				iDir++
-				this.contents.align[iDir] := object()
+				this.contents.alignInitial[iDir] := object()
 				Positions := this.xml.getChildren("//Align/Dir[" iDir "]", "element")
 				iPositions := 0
 				for v in Positions {
@@ -82,14 +112,26 @@ class EDE_XMLConfig {
 				for currPos in Positions {
 					oPos := Object()
 					iPos++
-					oPos.x := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "x")
-					oPos.y := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "y")
-					oPos.width := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "width")
-					oPos.height := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "height")
-					this.contents.align[iDir].pos[iPos] := oPos
+					postype := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "type")
+					oPos.type := postype
+					oPos.data := Object()
+					if (RegExMatch(postype, "i)^original$")) {
+					}
+					else if (RegExMatch(postype, "i)^border$")) {
+						oPos.data.border :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/border")
+					}
+					else if (RegExMatch(postype, "i)^percent$")) {
+						oPos.data.x :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/x")
+						oPos.data.y :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/y")
+						oPos.data.width :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/w")
+						oPos.data.height :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/h")
+						
+					
+					}
+					this.contents.alignInitial[iDir].pos[iPos] := oPos
 				}
-				this.contents.align[iDir].cnt := iPos
-				this.contents.align[iDir].compass := this.xml.getAtt("//Align/Dir[" iDir "]", "compass") ; getAtt() method
+				this.contents.alignInitial[iDir].cnt := iPos
+				this.contents.alignInitial[iDir].compass := this.xml.getAtt("//Align/Dir[" iDir "]", "compass") ; getAtt() method
 			}
 		}
 	}
