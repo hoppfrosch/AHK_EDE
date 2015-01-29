@@ -19,7 +19,7 @@
 ; ******************************************************************************************************************************************
 class EDE_XMLConfig {
 	
-	_version := "0.2.0"
+	_version := "0.2.1"
 	_debug := 0 ; _DBG_	
 	filename := ""
 	contents := object()
@@ -57,39 +57,6 @@ class EDE_XMLConfig {
 			}
 		}
 			
-	}
-	
-	parseAlignOld() {
-		if this.xml.documentElement {
-			Dirs := this.xml.getChildren("//AlignOld", "element")
-		
-			configPos := Object()
-			iDir := 0
-			for currDir in Dirs {
-				iDir++
-				this.contents.align[iDir] := object()
-				Positions := this.xml.getChildren("//AlignOld/Dir[" iDir "]", "element")
-				iPositions := 0
-				for v in Positions {
-					iPositions++
-				}
-				key := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "kp") ; getAtt() method
-				compass := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "compass") ; getAtt() method
-		
-				iPos := 0
-				for currPos in Positions {
-					oPos := Object()
-					iPos++
-					oPos.x := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "x")
-					oPos.y := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "y")
-					oPos.width := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "width")
-					oPos.height := this.xml.getAtt("//AlignOld/Dir[" iDir "]/Pos[" iPos "]", "height")
-					this.contents.align[iDir].pos[iPos] := oPos
-				}
-				this.contents.align[iDir].cnt := iPos
-				this.contents.align[iDir].compass := this.xml.getAtt("//AlignOld/Dir[" iDir "]", "compass") ; getAtt() method
-			}
-		}
 	}
 	parseAlign() {
 		if this.xml.documentElement {
@@ -135,19 +102,51 @@ class EDE_XMLConfig {
 			}
 		}
 	}
-/*
-===============================================================================
-Function: __New
-	Constructor (*INTERNAL*)
+	
+	/* ---------------------------------------------------------------------------------------
+	Method: transformAlignConfig
+		Transform the different aligment types from configuration to screen percents in dependeance of the size of the given window
 
-Parameters:
-	filename - name of configuration file to parse
-	debug - Flag to enable debugging (Optional - Default: 0)
+	Parameters:
+		<Window-Object at http://hoppfrosch.github.io/AHK_Windy/files/Windy-ahk.html> whose aligminets have to transformed to screen percents
 
-Author(s):
-	20130404 - hoppfrosch - Original
-===============================================================================
-*/     
+	Returns:
+		Object, containing all alignments for the given window as screen percents
+	*/ 
+	transformAlignConfig(win) {
+		ret := Object()
+		for currKey,dat1 in this.contents.alignInitial {
+			ret[currKey] := Object()
+			ret[currKey].cnt := dat1.cnt
+			ret[currKey].compass := dat1.compass
+			for currAlign, dat2 in dat1.pos {
+				oPercent := Object()
+				if (RegExMatch(dat2.type, "i)^percent$")) {
+					oPercent.x := dat2.data.x
+					oPercent.y := dat2.data.y
+					oPercent.width := dat2.data.width
+					oPercent.height := dat2.data.height
+				}
+				else if (RegExMatch(dat2.type, "i)^border")) {
+					oPercent := win.border2percent( dat2.data.border )
+				}
+				else if (RegExMatch(dat2.type, "i)^original")) {
+					oPercent := win.posSize2percent()
+				}
+				ret[currKey].pos[currAlign] := oPercent
+			}
+		}
+		return ret
+	}
+
+	/* ---------------------------------------------------------------------------------------
+	Method: __New
+		Constructor (*INTERNAL*)
+
+	Parameters:
+		filename - name of configuration file to parse
+		debug - Flag to enable debugging (Optional - Default: 0)
+	*/   
 	__New(filename="EDE.xml", debug=false) {
 		this._debug := debug ; _DBG_
 		if (this._debug) ; _DBG_
