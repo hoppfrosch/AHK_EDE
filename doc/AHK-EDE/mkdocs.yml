@@ -1,4 +1,7 @@
 site_name: EDE - Enhanced desktop experience
+pages:
+- [index.md, Home]
+- [Alignment.md, Windows Alignment]
 
 repo_url: https://github.com/hoppfrosch/AHK_EDE/
 
