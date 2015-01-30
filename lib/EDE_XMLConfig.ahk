@@ -90,8 +90,8 @@ class EDE_XMLConfig {
 					else if (RegExMatch(postype, "i)^percent$")) {
 						oPos.data.x :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/x")
 						oPos.data.y :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/y")
-						oPos.data.width :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/w")
-						oPos.data.height :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/h")
+						oPos.data.w :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/w")
+						oPos.data.h :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/h")
 						
 					
 					}
@@ -122,10 +122,7 @@ class EDE_XMLConfig {
 			for currAlign, dat2 in dat1.pos {
 				oPercent := Object()
 				if (RegExMatch(dat2.type, "i)^percent$")) {
-					oPercent.x := dat2.data.x
-					oPercent.y := dat2.data.y
-					oPercent.width := dat2.data.width
-					oPercent.height := dat2.data.height
+					oPercent := new Recty(dat2.data.x, dat2.data.y, dat2.data.w, dat2.data.h)
 				}
 				else if (RegExMatch(dat2.type, "i)^border")) {
 					oPercent := win.border2percent( dat2.data.border )

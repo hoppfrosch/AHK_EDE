@@ -106,7 +106,7 @@
 		<Dir kp="5" compass="center">
 			<Pos type="border"><border>vc hc</border></Pos>
 			<Pos type="percent"><x>33.33</x><y>33.33</y><w>33.33</w><h>33.33</h></Pos>
-			<Pos type="percent"><x>25.00</x><y>25.00</y><w>33.33</w><h>50.00</h></Pos>
+			<Pos type="percent"><x>25.00</x><y>25.00</y><w>50.00</w><h>50.00</h></Pos>
 			<Pos type="percent"><x>16.67</x><y>16.67</y><w>66.67</w><h>66.67</h></Pos>
 			<Pos type="percent"><x>0.00</x><y>0.00</y><w>100.00</w><h>100.00</h></Pos>
 			<Pos type="percent"><x>16.67</x><y>0.00</y><w>66.67</w><h>100.00</h></Pos>
@@ -137,7 +137,7 @@
 			<Pos type="original"></Pos>
 		</Dir>
 		<Dir kp="9" compass="northeast">
-			<Pos type="border"><border>t</border></Pos>
+			<Pos type="border"><border>r t</border></Pos>
 			<Pos type="percent"><x>50.00</x><y>0.00</y><w>50.00</w><h>50.00</h></Pos>
 			<Pos type="percent"><x>66.67</x><y>0.00</y><w>33.33</w><h>50.00</h></Pos>
 			<Pos type="percent"><x>33.33</x><y>0.00</y><w>66.67</w><h>50.00</h></Pos>
