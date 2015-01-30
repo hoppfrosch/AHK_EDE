@@ -10,5 +10,7 @@ ForcePull_Local.sh
 NCHITTEST.ahk
 backup/
 *.bak
-AHK-EDE.tdl
 xx.ahk
+gotoCache/
+lib/Windy/_WindowHandlerEvent.ahk
+lib/Windy/

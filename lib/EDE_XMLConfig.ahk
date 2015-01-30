@@ -5,13 +5,11 @@
 		Class to handle configuration for EDE (Parse XML configuration and offer access to configuration items)
 
 	Author: 
-		hoppfrosch (hoppfrosch@ahk4.me)
+		hoppfrosch (hoppfrosch@gmx.de)
 		
 	License: 
 		This program is free software. It comes without any warranty, to the extent permitted by applicable law. You can redistribute it and/or modify it under the terms of the Do What The Fuck You Want To Public License, Version 2, as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
 		
-	Changelog:
-		0.1.0 - [+] Initial
 */
 	
 ; ****** HINT: Documentation can be extracted to HTML using NaturalDocs ************** */
@@ -21,7 +19,7 @@
 ; ******************************************************************************************************************************************
 class EDE_XMLConfig {
 	
-	_version := "0.1.2"
+	_version := "0.2.1"
 	_debug := 0 ; _DBG_	
 	filename := ""
 	contents := object()
@@ -60,7 +58,6 @@ class EDE_XMLConfig {
 		}
 			
 	}
-	
 	parseAlign() {
 		if this.xml.documentElement {
 			Dirs := this.xml.getChildren("//Align", "element")
@@ -69,7 +66,7 @@ class EDE_XMLConfig {
 			iDir := 0
 			for currDir in Dirs {
 				iDir++
-				this.contents.align[iDir] := object()
+				this.contents.alignInitial[iDir] := object()
 				Positions := this.xml.getChildren("//Align/Dir[" iDir "]", "element")
 				iPositions := 0
 				for v in Positions {
@@ -82,30 +79,71 @@ class EDE_XMLConfig {
 				for currPos in Positions {
 					oPos := Object()
 					iPos++
-					oPos.x := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "x")
-					oPos.y := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "y")
-					oPos.width := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "width")
-					oPos.height := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "height")
-					this.contents.align[iDir].pos[iPos] := oPos
+					postype := this.xml.getAtt("//Align/Dir[" iDir "]/Pos[" iPos "]", "type")
+					oPos.type := postype
+					oPos.data := Object()
+					if (RegExMatch(postype, "i)^original$")) {
+					}
+					else if (RegExMatch(postype, "i)^border$")) {
+						oPos.data.border :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/border")
+					}
+					else if (RegExMatch(postype, "i)^percent$")) {
+						oPos.data.x :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/x")
+						oPos.data.y :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/y")
+						oPos.data.w :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/w")
+						oPos.data.h :=  this.xml.getText("//Align/Dir[" iDir "]/Pos[" iPos "]/h")
+						
+					
+					}
+					this.contents.alignInitial[iDir].pos[iPos] := oPos
 				}
-				this.contents.align[iDir].cnt := iPos
-				this.contents.align[iDir].compass := this.xml.getAtt("//Align/Dir[" iDir "]", "compass") ; getAtt() method
+				this.contents.alignInitial[iDir].cnt := iPos
+				this.contents.alignInitial[iDir].compass := this.xml.getAtt("//Align/Dir[" iDir "]", "compass") ; getAtt() method
 			}
 		}
 	}
-/*
-===============================================================================
-Function: __New
-	Constructor (*INTERNAL*)
+	
+	/* ---------------------------------------------------------------------------------------
+	Method: transformAlignConfig
+		Transform the different aligment types from configuration to screen percents in dependeance of the size of the given window
 
-Parameters:
-	filename - name of configuration file to parse
-	debug - Flag to enable debugging (Optional - Default: 0)
+	Parameters:
+		<Window-Object at http://hoppfrosch.github.io/AHK_Windy/files/Windy-ahk.html> whose aligminets have to transformed to screen percents
 
-Author(s):
-	20130404 - hoppfrosch - Original
-===============================================================================
-*/     
+	Returns:
+		Object, containing all alignments for the given window as screen percents
+	*/ 
+	transformAlignConfig(win) {
+		ret := Object()
+		for currKey,dat1 in this.contents.alignInitial {
+			ret[currKey] := Object()
+			ret[currKey].cnt := dat1.cnt
+			ret[currKey].compass := dat1.compass
+			for currAlign, dat2 in dat1.pos {
+				oPercent := Object()
+				if (RegExMatch(dat2.type, "i)^percent$")) {
+					oPercent := new Recty(dat2.data.x, dat2.data.y, dat2.data.w, dat2.data.h)
+				}
+				else if (RegExMatch(dat2.type, "i)^border")) {
+					oPercent := win.border2percent( dat2.data.border )
+				}
+				else if (RegExMatch(dat2.type, "i)^original")) {
+					oPercent := win.posSize2percent()
+				}
+				ret[currKey].pos[currAlign] := oPercent
+			}
+		}
+		return ret
+	}
+
+	/* ---------------------------------------------------------------------------------------
+	Method: __New
+		Constructor (*INTERNAL*)
+
+	Parameters:
+		filename - name of configuration file to parse
+		debug - Flag to enable debugging (Optional - Default: 0)
+	*/   
 	__New(filename="EDE.xml", debug=false) {
 		this._debug := debug ; _DBG_
 		if (this._debug) ; _DBG_

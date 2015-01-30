@@ -1,4 +1,4 @@
-﻿#Persistent
+#Persistent
 ;#Warn All
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
@@ -14,8 +14,10 @@
 #include <Windy\Mousy>
 #include <Windy\Windy>
 #include <Windy\MultiMony>
+#include <Windy\Mony>
 
 SetWorkingDir %A_ScriptDir%  
+
 
 ;-------------------------------------------------------------------------------------------------------
 ;------------------- Global Variables
@@ -39,7 +41,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.10.0"
+gEDE.Info.App.Version := "0.11.0"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -48,11 +50,11 @@ gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 LoadConfig()
 
 ; Setup various timers
-val := gEDE.config.RepeatedKeypress.Timeout.text
+val := gEDE.Config.contents.RepeatedKeypress.Timeout.text
 SetTimer, lExpireReprisedKeypress, %val%
 
 ; Timer to AutoHide-EDE GUI
-val := gEDE.config.AutoHide.Timeout.text
+val := gEDE.Config.contents.AutoHide.Timeout.text
 if (val >= 0 )
 	SetTimer, lExpireAutoHide, %val%
 
@@ -186,11 +188,11 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%               
 ; Contents of tab 2
 tabTmp :=  2
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Add   vAdd,
-TT.Add(hwTab%tabTmp%_Add,"Move to next screen","",%tabTmp%)
+TT.Add(hwTab%tabTmp%_Add,"Move active window to next screen","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ADD3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\monitor--arrow.ico
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter,
-TT.Add(hwTab%tabTmp%_Ent,"Locate Mousepointer","",%tabTmp%)
-Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             ,       %A_ScriptDir%\res\marker.ico
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Ent vEnter, 
+TT.Add(hwTab%tabTmp%_Ent, "Move mouse to next screen","",%tabTmp%)
+Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             , %A_ScriptDir%\res\mouse--arrow.ico
 
 ; Contents of tab 4
 tabTmp := 4
@@ -245,7 +247,7 @@ $ESC:: ; <--- Hide
 	OutputDebug % ">[EDE] Activating Tab <" Tab ">"
 	ShowGui(Tab, 1)
 	OutputDebug % "<[EDE] " A_ThisHotkey " done"
-	if (gEDE.config.AutoHide.Timeout.text > 0)
+	if (gEDE.Config.contents.AutoHide.Timeout.text > 0)
 		SetTimer, lExpireAutoHide
 	return
 
@@ -269,7 +271,9 @@ $Numpad7:: ; <--- Action on the current activ EDE-Tab
 $Numpad8:: ; <--- Action on the current activ EDE-Tab
 $Numpad9:: ; <--- Action on the current activ EDE-Tab
 id := activeTabId()
-Tab%id%(SubStr(A_ThisHotkey,8)) ; 
+Tab%id%(SubStr(A_ThisHotkey,8)) 
+if (gEDE.Config.contents.AutoHide.Timeout.text > 0)
+	SetTimer, lExpireAutoHide
 Return
 
 ; ----------------------------------------------------------------------------
@@ -368,6 +372,7 @@ HideGui() {
 	TabId := activeTabId()
 	Gui, %TabId%:hide
 	gEde.State.EDEActive := 0
+	gEde.Temp := Object()
 }
 
 NotYetImplemented() {
@@ -381,11 +386,18 @@ Tab1(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
+
+	; if the Configuration contains "Border Movement" and "Original Movement" - the factors do have to be calculated dynamically depending of the current
+	; size of the active window. Therefore within Windy the methods "border2percent()" and "posSize2percent()" have been implemented
+	; The calculation has to be done initially when TAB1 is opened - therefore the window can be resized to its original size as long as TAB1 is opened.
+	if (gEDE.State.Key.Reprise == 0) {
+		gEDE.Temp.AlignConfig := gEde.Config.transformAlignConfig(gEDE.State.WinList[0])
+	}
 	
 	; If a Numpad-Key is pressed repeatedly, cycle through the configuration ....
 	if (gEDE.State.Key.Previous = gEDE.State.Key.Current) {
 		gEDE.State.Key.Reprise := gEDE.State.Key.Reprise + 1
-		if (gEDE.State.Key.Reprise > gEDE.Config.align[gEDE.State.Key.Current].cnt) {
+		if (gEDE.State.Key.Reprise > gEDE.Temp.AlignConfig[gEDE.State.Key.Current].cnt) {
 			gEDE.State.Key.Reprise := 1
 		}
 	}
@@ -398,9 +410,9 @@ Tab1(GuiControl) {
 		TaskDialog(gEDE.State.WinList[0].hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
 	else if(gEDE.State.Key.Current >= "1" && gEDE.State.Key.Current <= "9") { ; Any key of Numpad1 to Numpad9 is pressed ...
-		factors := gEDE.Config.align[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
-		OutputDebug % "*** Key "gEDE.State.Key.Current "- Reprise:" gEDE.State.Key.Reprise ":" factors.x "-" factors.y "-" factors.width "-" factors.height
-		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.width, factors.height)
+		factors := gEDE.Temp.AlignConfig[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
+		OutputDebug % "[EDE-Align] reprise: <" gEDE.State.Key.Reprise "> - factors: " factors.dump()
+		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.w, factors.h)
 		gEDE.State.waitForReprisedKeyPress := 1
 		SetTimer, lExpireReprisedKeypress
 	}
@@ -439,16 +451,15 @@ Tab2(GuiControl) {
 	
 	if(gEDE.State.Key.Current == "Add") {
 		HideGUI()
-		newID := gEDE.State.WinList[0].monitorID + 1
-		OutputDebug % "Vor Move: " gEDE.State.WinList[0].monitorID
-		; Wrap on last monitor
-		obj := new MultiMony()
-		if (newID> obj.monitorsCount()) {
-			newID := 1
-		}
-		gEDE.State.WinList[0].monitorID := newID
-		OutputDebug % "Nach Move: " gEDE.State.WinList[0].monitorID
+		obj_mon := new Mony(gEDE.State.WinList[0].monitorID)
+		gEDE.State.WinList[0].monitorID := obj_mon.idNext
 	}
+	else if(gEDE.State.Key.Current == "Enter") {
+		obj_mouse := new Mousy()
+		currMonId := obj_mouse.monitorID
+		obj_mon := new Mony(currMonId)
+		obj_mouse.monitorID := obj_mon.idNext
+	}	
 	else {
    		NotYetImplemented()
 		HideGUI()
@@ -502,7 +513,8 @@ activeTabID() {
 LoadConfig() {
 	Global gEDE
 	config := new EDE_XMLConfig(A_ScriptDir "\EDE.xml")
-	gEde.Config := config.contents
+	gEde.Config := config
+	gEde.Temp := Object()
 }
 
 ShowgEDE() {
