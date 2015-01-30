@@ -1,4 +1,4 @@
-﻿#Persistent
+#Persistent
 ;#Warn All
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
@@ -40,7 +40,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.10.0"
+gEDE.Info.App.Version := "0.11.0"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -49,11 +49,11 @@ gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 LoadConfig()
 
 ; Setup various timers
-val := gEDE.config.RepeatedKeypress.Timeout.text
+val := gEDE.Config.contents.RepeatedKeypress.Timeout.text
 SetTimer, lExpireReprisedKeypress, %val%
 
 ; Timer to AutoHide-EDE GUI
-val := gEDE.config.AutoHide.Timeout.text
+val := gEDE.Config.contents.AutoHide.Timeout.text
 if (val >= 0 )
 	SetTimer, lExpireAutoHide, %val%
 
@@ -246,7 +246,7 @@ $ESC:: ; <--- Hide
 	OutputDebug % ">[EDE] Activating Tab <" Tab ">"
 	ShowGui(Tab, 1)
 	OutputDebug % "<[EDE] " A_ThisHotkey " done"
-	if (gEDE.config.AutoHide.Timeout.text > 0)
+	if (gEDE.Config.contents.AutoHide.Timeout.text > 0)
 		SetTimer, lExpireAutoHide
 	return
 
@@ -271,7 +271,7 @@ $Numpad8:: ; <--- Action on the current activ EDE-Tab
 $Numpad9:: ; <--- Action on the current activ EDE-Tab
 id := activeTabId()
 Tab%id%(SubStr(A_ThisHotkey,8)) 
-if (gEDE.config.AutoHide.Timeout.text > 0)
+if (gEDE.Config.contents.AutoHide.Timeout.text > 0)
 	SetTimer, lExpireAutoHide
 Return
 
@@ -371,6 +371,7 @@ HideGui() {
 	TabId := activeTabId()
 	Gui, %TabId%:hide
 	gEde.State.EDEActive := 0
+	gEde.Temp := Object()
 }
 
 NotYetImplemented() {
@@ -384,11 +385,18 @@ Tab1(GuiControl) {
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
+
+	; if the Configuration contains "Border Movement" and "Original Movement" - the factors do have to be calculated dynamically depending of the current
+	; size of the active window. Therefore within Windy the methods "border2percent()" and "posSize2percent()" have been implemented
+	; The calculation has to be done initially when TAB1 is opened - therefore the window can be resized to its original size as long as TAB1 is opened.
+	if (gEDE.State.Key.Reprise == 0) {
+		gEDE.Temp.AlignConfig := gEde.Config.transformAlignConfig(gEDE.State.WinList[0])
+	}
 	
 	; If a Numpad-Key is pressed repeatedly, cycle through the configuration ....
 	if (gEDE.State.Key.Previous = gEDE.State.Key.Current) {
 		gEDE.State.Key.Reprise := gEDE.State.Key.Reprise + 1
-		if (gEDE.State.Key.Reprise > gEDE.Config.align[gEDE.State.Key.Current].cnt) {
+		if (gEDE.State.Key.Reprise > gEDE.Temp.AlignConfig[gEDE.State.Key.Current].cnt) {
 			gEDE.State.Key.Reprise := 1
 		}
 	}
@@ -401,9 +409,9 @@ Tab1(GuiControl) {
 		TaskDialog(gEDE.State.WinList[0].hwnd, gEDE.Info.App.NameVersion " - WindowsInfo|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" gEDE.State.Key.Current ">`n", "", 1, "INFO")
 	}
 	else if(gEDE.State.Key.Current >= "1" && gEDE.State.Key.Current <= "9") { ; Any key of Numpad1 to Numpad9 is pressed ...
-		factors := gEDE.Config.align[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
-		OutputDebug % "*** Key "gEDE.State.Key.Current "- Reprise:" gEDE.State.Key.Reprise ":" factors.x "-" factors.y "-" factors.width "-" factors.height
-		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.width, factors.height)
+		factors := gEDE.Temp.AlignConfig[gEDE.State.Key.Current].pos[gEDE.State.Key.Reprise]		
+		OutputDebug % "[EDE-Align] reprise: <" gEDE.State.Key.Reprise "> - factors: " factors.dump()
+		gEDE.State.WinList[0].movePercental(factors.x, factors.y, factors.w, factors.h)
 		gEDE.State.waitForReprisedKeyPress := 1
 		SetTimer, lExpireReprisedKeypress
 	}
@@ -504,7 +512,8 @@ activeTabID() {
 LoadConfig() {
 	Global gEDE
 	config := new EDE_XMLConfig(A_ScriptDir "\EDE.xml")
-	gEde.Config := config.contents
+	gEde.Config := config
+	gEde.Temp := Object()
 }
 
 ShowgEDE() {
