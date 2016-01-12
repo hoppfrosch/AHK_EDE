@@ -1,8 +1,13 @@
-# AHK-EDE - Enhanced Desktop Experience
+# AHK-EDE - Enhanced Desktop Experience [![AutoHotkey](https://img.shields.io/badge/Language-AutoHotkey-yellowgreen.svg)](https://autohotkey.com/)
+
+ [![gh-pages](https://cloud.githubusercontent.com/assets/1973899/5237387/2c8f8372-7881-11e4-91f6-fb46690eb875.png)](http://hoppfrosch.github.io/AHK_EDE/)
 
 Tool to handle different actions on Windows and Mouse within a Multi-Desktop-Environment
 
 The idea is based on [WindowPad](http://http://www.autohotkey.com/board/topic/19990-windowpad-window-moving-tool)/[WindowPadX](https://github.com/hoppfrosch/WindowPadX), which basically lacks the ability to provide some windows history. Most of the functionality of [WindowPadX](https://github.com/hoppfrosch/WindowPadX) should be available at the end ...
+
+Development state: 
+[![Changelog](https://img.shields.io/badge/State-ChangeLog-yellow.svg)](https://github.com/hoppfrosch/AHK_EDE/blob/master/ChangeLog.md) [![Stories in Ready](https//badge.waffle.io/hoppfrosch/AHK_EDE.svg?label=ready&title=Ready)](https://waffle.io/ahkscript/awesome-AutoHotkey) [![Stories in Progress](https://badge.waffle.io/hoppfrosch/AHK_EDE.svg?label=In%20Progress&title=In%20Progress)](http://waffle.io/ahkscript/awesome-AutoHotkey)
 
 
 **Author**: [hoppfrosch@gmx.de](mailto:hoppfrosch@gmx.de)
