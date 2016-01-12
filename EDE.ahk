@@ -3,11 +3,10 @@
 ;#Warn LocalSameAsGlobal, Off
 #SingleInstance force
 
-#include %A_ScriptDir%
-#include lib
+#include %A_ScriptDir%\lib
 #include TaskDialog.ahk
-#include %A_ScriptDir%
-#include lib\TT
+#include JSON.ahk
+#include %A_ScriptDir%\lib\TT
 #include TT.ahk
 
 #include <EDE_XMLConfig>
@@ -488,7 +487,9 @@ Tab4(GuiControl) {
 	
 	if (gEDE.State.Key.Current == "Sub") {
 		HideGUI()
-		TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
+		str := JSON.Dump(gEDE.State.WinList[0],2)
+		MsgBox % str
+		;TaskDialog(0, gEDE.Info.App.NameVersion " - About|hWnd: <" gEDE.State.WinList[0].hwnd ">|Title: <" gEDE.State.WinList[0].title ">`nGuiControl: <" GuiControl ">`n", "", 1, "INFO")
 	}
 	else if(gEDE.State.Key.Current == "1") {
 		LoadConfig()
