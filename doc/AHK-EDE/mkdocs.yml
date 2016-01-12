@@ -1,12 +1,12 @@
 site_name: EDE - Enhanced desktop experience
 pages:
-- [index.md, Home]
-- [Alignment.md, Windows Alignment]
+- Home: index.md
+- Windows Alignment: Alignment.md
 
 repo_url: https://github.com/hoppfrosch/AHK_EDE/
 
 site_author: hoppfrosch
 
-theme: simplex
+theme: readthedocs
 
 site_dir: ..\..\..\AHK_EDE_gh-pages\
