@@ -45,9 +45,3 @@ Within this documentation, the following convention/symbols are used:
 - ![Left-WIN](img/Keys/Key-Win.png)  is meant to be LEFT-WIN key 
 - ![NUMPAD-0](img/Keys/Key-0.png), ![NUMPAD-1](img/Keys/Key-1.png), ![NUMPAD-2](img/Keys/Key-2.png), ![NUMPAD-3](img/Keys/Key-3.png), ![NUMPAD-4](img/Keys/Key-4.png), ![NUMPAD-5](img/Keys/Key-5.png), ![NUMPAD-6](img/Keys/Key-6.png), ![NUMPAD-7](img/Keys/Key-7.png), ![NUMPAD-8](img/Keys/Key-8.png), ![NUMPAD-9](img/Keys/Key-9.png), ![NUMPAD-DEL](img/Keys/Key-Del.png), ![NUMPAD-ENTER](img/Keys/Key-Enter.png), ![NUMPAD-Plus](img/Keys/Key-Plus.png), ![NUMPAD-Minus](img/Keys/Key-Minus.png), ![NUMPAD-Mult](img/Keys/Key-Mult.png), ![NUMPAD-Div](img/Keys/Key-Div.png) are meant to be the corressponding keys on the numerical keyboard
 - Within key-sequences plus (+) and minus (-) chars are used to indicate different actions on the keys. Whilst **+** (plus) means to keep to previous key(s) pressed when pressing the next key, **-** (minus) means that the previously pressed key(s) have to be released before pressing the next key. For example the key-sequence ![Left-WIN](img/Keys/Key-Win.png) + ![NUMPAD-1](img/Keys/Key-1.png) - ![NUMPAD-1](img/Keys/Key-1.png) should be read as: press **LEFT-WIN** and then **NUMPAD-1** without relasing **LEFT-WIN** (+ char), release these keys (- char) before pressing the (second) **NUMPAD-1**
-
- 
-----
-
-This site is build using [mkdocs](http://mkdocs.org).
-

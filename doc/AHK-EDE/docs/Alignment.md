@@ -14,8 +14,10 @@ As it's a quite complex feature, the general concept is described first.
 
 - The windows aligment in ***EDE*** is accessible on TAB1 (Opened via ![Left-WIN](img/Keys/Key-Win.png) + ![NUMPAD-1](img/Keys/Key-1.png)) and subsequently pressing one of the NUMPAD-Keys ![NUMPAD-1](img/Keys/Key-1.png), ![NUMPAD-2](img/Keys/Key-2.png), ![NUMPAD-3](img/Keys/Key-3.png), ![NUMPAD-4](img/Keys/Key-4.png), ![NUMPAD-5](img/Keys/Key-5.png), ![NUMPAD-6](img/Keys/Key-6.png), ![NUMPAD-7](img/Keys/Key-7.png), ![NUMPAD-8](img/Keys/Key-8.png), ![NUMPAD-9](img/Keys/Key-9.png).
 
-- The NUMPAD-Keys above could be considered as a "compass". 
+- The NUMPAD-Keys above could be considered as a compass. This could be used as a crib to memorize the aligment directions.
 
+![Function panel](img/GUI/TAB1-functions.png)  <-> ![NUMPAD](img/GUI/NumPad.png) <-> ![Compass](img/Misc/Compass.png)
+  
 Direction-Key                   | Direction  | Description
 --------------------------------|------------|---------------------------------------
 ![NUMPAD-1](img/Keys/Key-1.png) | South-West | Moves Window to the lower left corner of the current screen
@@ -32,11 +34,7 @@ Direction-Key                   | Direction  | Description
 
 - While TAB1 is active the direction-keys can be pressed repeatedly (either the same or a different direction key). This moves/resizes the current window on the current screen according to the associated position configuration. For example pressing direction-keys ![NUMPAD-1](img/Keys/Key-1.png)-![NUMPAD-1](img/Keys/Key-1.png) (while TAB1 is active) moves/resizes the window to the position/size defined in the second position configuration for this direction key. 
 
-- Each direction key may have an endless number of position configurations - repeatedly pressing the direction key (while TAB1 is active) cycles through the direction keys position configurations (if the last position configuration is used the next movement will go to the first position configuration).
+- Each direction key may have an endless number of position configurations - repeatedly pressing the direction key (while TAB1 is active) cycles through the direction keys position configurations (if the last position configuration is used the next movement will go to the first position configuration). 
 
-
- 
-----
-
-This site is build using [mkdocs](http://mkdocs.org).
+- For documentation on configuration see [Configuration file](https://github.com/hoppfrosch/AHK_EDE/blob/master/EDE.xml)
 

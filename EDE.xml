@@ -4,76 +4,29 @@
 		<RepeatedKeypress>
 			<Timeout unit="ms">5000</Timeout>
 		</RepeatedKeypress>
-		<AutoHide> 
-			<!-- #12: AutoHide GUI after timeout -->
-			<!-- If Node <AutoHide> is missing or timeout value is less than 0, AutoHide is disabled -->
+		<AutoHide> 			
+		    <!-- Autohide the EDE-GUI. If Node <AutoHide> is missing or timeout value is less than 0, AutoHide is disabled -->
 			<Timeout unit="ms">5000</Timeout>
 		</AutoHide>
 	</General>
-	<AlignOld>
-		<!-- 
-		Each <Dir>-node represents one direction on the compass and corresponds a key on NUMPAD (e.g. Numpad-8 is identical with north)
-		Each Childnode <Pos> describes window size/position which should be set, when pressing the corresponding Numpad-key.
-		Multiple <Pos> children are stepped through in the given order
-		The value-attributes of each <Pos> are given in percents of the size of the monitor
-		-->
-		<Dir kp="1" compass="southwest">
-			<Pos x="0.00" y="50.00" width="50.00" height="50.00"/>
-			<Pos x="0.00" y="50.00" width="33.33" height="50.00"/>
-			<Pos x="0.00" y="50.00" width="66.67" height="50.00"/>
-		</Dir>
-		<Dir kp="2" compass="south">
-			<Pos x="0.00" y="50.00" width="100.00" height="50.00"/>
-			<Pos x="20.00" y="50.00" width="60.00" height="50.00"/>
-			<Pos x="33.33" y="50.00" width="33.33" height="50.00"/>
-		</Dir>
-		<Dir kp="3" compass="southeast">
-			<Pos x="50.00" y="50.00" width="50.00" height="50.00"/>
-			<Pos x="66.67" y="50.00" width="33.33" height="50.00"/>
-			<Pos x="33.33" y="50.00" width="66.67" height="50.00"/>
-		</Dir >
-		<Dir kp="4" compass="west">
-			<Pos x="0.00" y="0.00" width="50.00" height="100.00"/>
-			<Pos x="0.00" y="0.00" width="33.33" height="100.00"/>
-			<Pos x="0.00" y="0.00" width="66.67" height="100.00"/>
-		</Dir>
-		<Dir kp="5" compass="center">
-			<Pos x="33.33" y="33.33" width="33.33" height="33.33"/>
-			<Pos x="25.00" y="25.00" width="50.00" height="50.00"/>
-			<Pos x="16.67" y="16.67" width="66.67" height="66.67"/>
-			<Pos x="0.00" y="0.00" width="100.00" height="100.00"/>
-			<Pos x="16.67" y="0.00" width="66.67" height="100.00"/>
-			<Pos x="33.33" y="0.00" width="33.33" height="100.00"/>
-			<Pos x="0.00" y="16.67" width="100.00" height="66.67"/>
-			<Pos x="0.00" y="33.33" width="100.00" height="33.33"/>
-		</Dir>
-		<Dir kp="6" compass="east"> 
-			<Pos x="50.00" y="0.00" width="50.00" height="100.00"/>
-			<Pos x="66.67" y="0.00" width="33.33" height="100.00"/>
-			<Pos x="33.33" y="0.00" width="66.67" height="100.00"/>
-		</Dir>
-		<Dir kp="7" compass="northwest">
-			<Pos x="0.00" y="0.00" width="50.00" height="50.00"/>
-			<Pos x="0.00" y="0.00" width="33.33" height="50.00"/>
-			<Pos x="0.00" y="0.00" width="66.67" height="50.00"/>
-		</Dir>
-		<Dir kp="8" compass="north">
-			<Pos x="0.00" y="0.00" width="100.00" height="50.00"/>
-			<Pos x="33.33" y="0.00" width="33.33" height="50.00"/>
-			<Pos x="20.00" y="0.00" width="60.00" height="50.00"/>
-		</Dir>
-		<Dir kp="9" compass="northeast">
-			<Pos x="50.00" y="0.00" width="50.00" height="50.00"/>
-			<Pos x="66.67" y="0.00" width="33.33" height="50.00"/>
-			<Pos x="33.33" y="0.00" width="66.67" height="50.00"/>
-		</Dir>
-	</AlignOld>
 	<Align>
-		<!-- 
+		<!--
+		Alignment of windows
+		 
 		Each <Dir>-node represents one direction on the compass and corresponds a key on NUMPAD (e.g. Numpad-8 is identical with north)
-		Each Childnode <Pos> describes window size/position which should be set, when pressing the corresponding Numpad-key.
-		Multiple <Pos> children are stepped through in the given order
-		The value-attributes of each <Pos> are given in percents of the size of the monitor
+		The attribute "kp" binds the configuration to the corresponding key on the keypad.  The attribute "compass" is just a textual
+		description which can be used for display.
+		Each Childnode <Pos> describes window size/position which should be set, when pressing the corresponding Numpad-key, configured 
+		via "kp"-attribute. 
+		Multiple <Pos> children are cycled through in the given order
+
+		As type within childnode <Pos> the following values for attribute "type" are valid:
+			  * "border": aligns the window in its current size on the given border ("l"-left, "r"-right, "b"-bottom, "t"-top, 
+			     "vc"-vertically centered, "hc"-horizontally centered"
+			  * "percent": aligns the window with given position in percent - for example: <Pos type="percent"><x>50.00</x><y>50.00</y><w>50.00</w><h>50.00</h></Pos> 
+			     aligns the window at x-Position 50% and y-Position 50% - that is the center of the screen. The size of the window will 
+			     be width 50% and height  50% - that means the window will take a quarter of the screen.  
+			  * "original": aligns the window in its original size and position
 		-->
 		<Dir kp="1" compass="southwest">
 			<Pos type="border"><border>l b</border></Pos>
