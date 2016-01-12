@@ -12,6 +12,7 @@
 #include <EDE_XMLConfig>
 #include <Windy\Mousy>
 #include <Windy\Windy>
+#include <Windy\WindLy>
 #include <Windy\MultiMony>
 #include <Windy\Mony>
 
@@ -40,7 +41,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.11.0"
+gEDE.Info.App.Version := "0.12.0"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
@@ -139,11 +140,12 @@ Loop 4 {
 	}
 	TT.Add(hwTab1,"Move/Resize active window","",1)
 	TT.Add(hwTab2,"Multi Monitor actions","",1)
-	TT.Add(hwTab3,"","",1)
+	TT.Add(hwTab3,"Single Monitor actions","",1)
 	TT.Add(hwTab4,"Misc","",1)
 	
 }
 
+; --------------------------------------------------------------------------------------------------------------------
 ; Contents of Tab1
 tabTmp := 1
 Gui, %tabTmp%:Add, Picture, %pos_NP_DOT%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Dot   vDot, %A_ScriptDir%\res\information-frame.ico
@@ -193,6 +195,13 @@ Gui, %tabTmp%:Add, Picture, %pos_NP_ENT%   0x800000 glTab%tabTmp% HwndhwTab%tabT
 TT.Add(hwTab%tabTmp%_Ent, "Move mouse to next screen","",%tabTmp%)
 Gui, %tabTmp%:Add, Picture, %pos_NP_ENT3%           glTab%tabTmp%                             , %A_ScriptDir%\res\mouse--arrow.ico
 
+; --------------------------------------------------------------------------------------------------------------------
+; Contents of tab 3
+tabTmp :=  3
+Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%   0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Sub   vSub, %A_ScriptDir%\res\arrow-in.ico
+TT.Add(hwTab%tabTmp%_Sub,"Minimize all windows on current monitor","",%tabTmp%)
+
+; --------------------------------------------------------------------------------------------------------------------
 ; Contents of tab 4
 tabTmp := 4
 Gui, %tabTmp%:Add, Picture, %pos_NP_SUB%  0x800000 glTab%tabTmp% HwndhwTab%tabTmp%_Sub    vSub, %A_ScriptDir%\res\information-white.ico
@@ -454,11 +463,12 @@ Tab2(GuiControl) {
 		gEDE.State.WinList[0].monitorID := obj_mon.idNext
 	}
 	else if(gEDE.State.Key.Current == "Enter") {
+		HideGUI()
 		obj_mouse := new Mousy()
 		currMonId := obj_mouse.monitorID
 		obj_mon := new Mony(currMonId)
 		obj_mouse.monitorID := obj_mon.idNext
-	}	
+	}
 	else {
    		NotYetImplemented()
 		HideGUI()
@@ -470,11 +480,22 @@ Tab3(GuiControl) {
 	Global gEDE
 	gEDE.State.Key.Previous := gEDE.State.Key.Current
 	gEDE.State.Key.Current := GuiControl
-	
+
 	OutputDebug % "[EDE-Keypress] Tab: <" gEDE.State.Tab.Current.Id "> - Key: <" gEDE.State.Key.Current "> - Previous: <" gEDE.State.Key.Previous ">"
-	
-	NotYetImplemented()
-	HideGUI()
+
+	if(gEDE.State.Key.Current == "Sub") {
+		HideGUI()
+		wL := new WindLy()
+		m := new Mousy()
+		list := wl.byMonitorId(m.monitorID)
+		for key, data in wl.list { ; access the window list via member variable
+			gEDE.State.WinList[data.hwnd].minimized := 1
+		}
+	}	
+	else {
+		NotYetImplemented()
+		HideGUI()
+	}
 	return
 }
 
