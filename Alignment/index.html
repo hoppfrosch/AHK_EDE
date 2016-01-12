@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Windows Alignment - EDE - Enhanced desktop experience</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Windows Alignment";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> EDE - Enhanced desktop experience</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Windows Alignment</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#windows-alignment-within-ede">Windows Alignment within EDE</a></li>
+                
+                    <li><a class="toctree-l4" href="#general-concept">General Concept</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">EDE - Enhanced desktop experience</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Windows Alignment</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/hoppfrosch/AHK_EDE/" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="windows-alignment-within-ede">Windows Alignment within EDE <img alt="AHK_EDE" src="../img/AHK_EDE.png" /></h1>
+<p><img alt="This page is still under construction" src="../img/Under_construction.png" /></p>
+<p><strong><em>EDE</em></strong> offers a broad functionality <strong><em>to align your active window on the current monitor</em></strong>. The alignment functionality is 
+highly configurable and can be for example configured to mimic the Windows Aero-Snap functionality of using keys <em>WIN</em>+<em>LEFT</em> and <em>WIN</em>-<em>RIGHT</em> to move the window 
+around the monitor (but: EDE-Windows alignment only moves around the current monitor).</p>
+<p>Windows alignment comprises positioning as well as resizing the window.</p>
+<p>As it's a quite complex feature, the general concept is described first.</p>
+<h2 id="general-concept">General Concept</h2>
+<ul>
+<li>
+<p>The windows aligment in <strong><em>EDE</em></strong> is accessible on TAB1 (Opened via <img alt="Left-WIN" src="../img/Keys/Key-Win.png" /> + <img alt="NUMPAD-1" src="../img/Keys/Key-1.png" />) and subsequently pressing one of the NUMPAD-Keys <img alt="NUMPAD-1" src="../img/Keys/Key-1.png" />, <img alt="NUMPAD-2" src="../img/Keys/Key-2.png" />, <img alt="NUMPAD-3" src="../img/Keys/Key-3.png" />, <img alt="NUMPAD-4" src="../img/Keys/Key-4.png" />, <img alt="NUMPAD-5" src="../img/Keys/Key-5.png" />, <img alt="NUMPAD-6" src="../img/Keys/Key-6.png" />, <img alt="NUMPAD-7" src="../img/Keys/Key-7.png" />, <img alt="NUMPAD-8" src="../img/Keys/Key-8.png" />, <img alt="NUMPAD-9" src="../img/Keys/Key-9.png" />.</p>
+</li>
+<li>
+<p>The NUMPAD-Keys above could be considered as a compass. This could be used as a crib to memorize the aligment directions.</p>
+</li>
+</ul>
+<p><img alt="Function panel" src="../img/GUI/TAB1-functions.png" />  &lt;-&gt; <img alt="NUMPAD" src="../img/GUI/NumPad.png" /> &lt;-&gt; <img alt="Compass" src="../img/Misc/Compass.png" /></p>
+<table>
+<thead>
+<tr>
+<th>Direction-Key</th>
+<th>Direction</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="NUMPAD-1" src="../img/Keys/Key-1.png" /></td>
+<td>South-West</td>
+<td>Moves Window to the lower left corner of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-2" src="../img/Keys/Key-2.png" /></td>
+<td>South</td>
+<td>Moves Window to the lower border of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-3" src="../img/Keys/Key-3.png" /></td>
+<td>South-East</td>
+<td>Moves Window to the lower right corner of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-4" src="../img/Keys/Key-4.png" /></td>
+<td>West</td>
+<td>Moves Window to the left border of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-5" src="../img/Keys/Key-5.png" /></td>
+<td>Center</td>
+<td>Moves Window to the center of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-6" src="../img/Keys/Key-6.png" /></td>
+<td>East</td>
+<td>Moves Window to the right border of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-7" src="../img/Keys/Key-7.png" /></td>
+<td>North-West</td>
+<td>Moves Window to the upper left corner of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-8" src="../img/Keys/Key-8.png" /></td>
+<td>North</td>
+<td>Moves Window to the upper border of the current screen</td>
+</tr>
+<tr>
+<td><img alt="NUMPAD-9" src="../img/Keys/Key-9.png" /></td>
+<td>North-East</td>
+<td>Moves Window to the upper right corner of the current screen</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>For each direction key several destination positions/sizes can be configured ("Position configurations)). </p>
+</li>
+<li>
+<p>While TAB1 is active the direction-keys can be pressed repeatedly (either the same or a different direction key). This moves/resizes the current window on the current screen according to the associated position configuration. For example pressing direction-keys <img alt="NUMPAD-1" src="../img/Keys/Key-1.png" />-<img alt="NUMPAD-1" src="../img/Keys/Key-1.png" /> (while TAB1 is active) moves/resizes the window to the position/size defined in the second position configuration for this direction key. </p>
+</li>
+<li>
+<p>Each direction key may have an endless number of position configurations - repeatedly pressing the direction key (while TAB1 is active) cycles through the direction keys position configurations (if the last position configuration is used the next movement will go to the first position configuration). </p>
+</li>
+<li>
+<p>For documentation on configuration see <a href="https://github.com/hoppfrosch/AHK_EDE/blob/master/EDE.xml">Configuration file</a></p>
+</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+
+</body>
+</html>
