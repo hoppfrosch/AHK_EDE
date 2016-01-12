@@ -41,7 +41,7 @@ gEDE.State.Key.Previous := ""
 gEDE.State.Key.Reprise := 0
 
 gEDE.Info.App.Name := "EDE"
-gEDE.Info.App.Version := "0.12.0"
+gEDE.Info.App.Version := "0.12.1"
 
 gEDE.Info.App.NameVersion := gEDE.Info.App.Name " V" gEDE.Info.App.Version
 
